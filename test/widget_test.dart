@@ -76,7 +76,7 @@ void main() {
     await tester.pump();
     expect(find.text("hi"), findsOneWidget);
 
-    await tester.tap(find.byKey(const Key("OKButton")));
+    await tester.tap(find.byKey(const Key("OkButton")));
     await tester.pump();
     expect(find.text("hi"), findsOneWidget);
 
