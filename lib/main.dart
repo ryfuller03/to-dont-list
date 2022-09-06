@@ -12,6 +12,8 @@ class ToDoList extends StatefulWidget {
 class _ToDoListState extends State<ToDoList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
   final TextEditingController _inputController = TextEditingController();
+  final TextEditingController _setsController = TextEditingController();
+  final TextEditingController _repsController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
@@ -24,16 +26,38 @@ class _ToDoListState extends State<ToDoList> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Add exercise'),
-            content: TextField(
-              onChanged: (value) {
-                setState(() {
-                  valueText = value;
-                });
-              },
-              controller: _inputController,
-              decoration:
-                  const InputDecoration(hintText: "type something here"),
-            ),
+            content: Column(children: <Widget>[
+              Text("Exercise"),
+              TextField(
+                onChanged: (value) {
+                  setState(() {
+                    valueText = value;
+                  });
+                },
+                controller: _inputController,
+                decoration: const InputDecoration(hintText: "type"),
+              ),
+              Text("Sets"),
+              TextField(
+                onChanged: (value2) {
+                  setState(() {
+                    sets = value2;
+                  });
+                },
+                controller: _setsController,
+                decoration: const InputDecoration(hintText: "type"),
+              ),
+              Text("Reps"),
+              TextField(
+                onChanged: (value3) {
+                  setState(() {
+                    reps = value3;
+                  });
+                },
+                controller: _repsController,
+                decoration: const InputDecoration(hintText: "type"),
+              )
+            ]),
             actions: <Widget>[
               ElevatedButton(
                 key: const Key("OkButton"),
@@ -41,7 +65,7 @@ class _ToDoListState extends State<ToDoList> {
                 child: const Text('Add'),
                 onPressed: () {
                   setState(() {
-                    _handleNewItem(valueText);
+                    _handleNewItem(valueText, sets, reps);
                     Navigator.pop(context);
                   });
                 },
@@ -70,13 +94,14 @@ class _ToDoListState extends State<ToDoList> {
         });
   }
 
+/*
   Future<void> _getWorkoutInfo(BuildContext context) async {
-    print("Loading Dialog");
+    print("Getting info");
     return showDialog(
         context: context,
-        builder: (context) {
+        builder: (context2) {
           return AlertDialog(
-            title: const Text('Add exercise'),
+            title: const Text('Add number of Sets'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -95,7 +120,7 @@ class _ToDoListState extends State<ToDoList> {
                 onPressed: () {
                   setState(() {
                     _handleNewItem(valueText);
-                    Navigator.pop(context);
+                    Navigator.pop(context2);
                   });
                 },
               ),
@@ -103,14 +128,24 @@ class _ToDoListState extends State<ToDoList> {
           );
         });
   }
-
+*/
   String valueText = "";
+
+  String sets = "";
+
+  String reps = "";
+
+  final List<Workout> workouts = [
+    const Workout(name: "Example", reps: "5", sets: "3")
+  ];
+
+  final _workoutSet = <Workout>{};
 
   final List<Item> items = [const Item(name: "add more todos")];
 
   final _itemSet = <Item>{};
 
-  void _handleListChanged(Item item, bool completed) {
+  void _handleListChanged(Workout workout, bool completed) {
     setState(() {
       // When a user changes what's in the list, you need
       // to change _itemSet inside a setState call to
@@ -118,15 +153,15 @@ class _ToDoListState extends State<ToDoList> {
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
 
-      items.remove(item);
+      workouts.remove(workout);
       if (!completed) {
         print("Completing");
-        _itemSet.add(item);
-        items.add(item);
+        _workoutSet.add(workout);
+        workouts.add(workout);
       } else {
         print("Making Undone");
-        _itemSet.remove(item);
-        items.insert(0, item);
+        _workoutSet.remove(workout);
+        workouts.insert(0, workout);
       }
     });
   }
@@ -138,9 +173,11 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleNewItem(String itemText) {
+  void _handleNewItem(String itemText, String set, String rep) {
     setState(() {
       print("Adding new item");
+      Workout workout_base = Workout(name: itemText, reps: rep, sets: set);
+      workouts.insert(0, workout_base);
       Item item = Item(name: itemText);
       items.insert(0, item);
       _inputController.clear();
@@ -156,10 +193,11 @@ class _ToDoListState extends State<ToDoList> {
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          children: items.map((item) {
+          children: workouts.map((workout) {
             return ToDoListItem(
-              item: item,
-              completed: _itemSet.contains(item),
+              //item: workout,
+              workout: workout,
+              completed: _workoutSet.contains(workout),
               onListChanged: _handleListChanged,
               onDeleteItem: _handleDeleteItem,
             );

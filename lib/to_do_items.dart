@@ -10,22 +10,22 @@ class Item {
   }
 }
 
-typedef ToDoListChangedCallback = Function(Item item, bool completed);
+typedef ToDoListChangedCallback = Function(Workout workout, bool completed);
 typedef ToDoListRemovedCallback = Function(Item item);
-typedef WorkoutInfo = Function(Workout workout);
+//typedef WorkoutInfo = Function(Workout workout);
 
 class ToDoListItem extends StatelessWidget {
   ToDoListItem({
-    required this.item,
-    //required this.workout,
+    //required this.item,
+    required this.workout,
     required this.completed,
     required this.onListChanged,
     required this.onDeleteItem,
     //required this.info
-  }) : super(key: ObjectKey(item));
+  }) : super(key: ObjectKey(workout));
 
-  //final Workout workout;
-  final Item item;
+  final Workout workout;
+  //final Item item;
   final bool completed;
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
@@ -51,13 +51,7 @@ class ToDoListItem extends StatelessWidget {
     );
   }
 
-  void _displayInfo() {
-    print("Back Squat");
-    print("3 Sets");
-    print("10 Reps Each");
-  }
-
-  Workout work = const Workout(reps: 15, sets: 3);
+  Workout work = const Workout(name: "Example", reps: "15", sets: "3");
 
   Future<void> _displayWorkoutInfo(BuildContext context) async {
     print("Showing information");
@@ -67,9 +61,9 @@ class ToDoListItem extends StatelessWidget {
           return AlertDialog(
             title: const Text('Exercise Info'),
             content: Column(children: [
-              Text("Exercise: ${item.name}"),
-              Text("Sets: ${work.sets}"),
-              Text("Reps: ${work.reps}"),
+              Text("Exercise: ${workout.name}"),
+              Text("Sets: ${workout.sets}"),
+              Text("Reps: ${workout.reps}"),
             ]),
             actions: <Widget>[
               ElevatedButton(
@@ -88,17 +82,17 @@ class ToDoListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        onListChanged(item, completed);
+        onListChanged(workout, completed);
       },
       onLongPress: () {
         _displayWorkoutInfo(context);
       },
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
-        child: Text(item.abbrev()),
+        child: Text(workout.abbrev()),
       ),
       title: Text(
-        item.name,
+        workout.name,
         style: _getTextStyle(context),
       ),
     );
@@ -106,7 +100,12 @@ class ToDoListItem extends StatelessWidget {
 }
 
 class Workout {
-  const Workout({required this.reps, required this.sets});
-  final int sets;
-  final int reps;
+  const Workout({required this.name, required this.reps, required this.sets});
+  final String name;
+  final String sets;
+  final String reps;
+
+  String abbrev() {
+    return name.substring(0, 1);
+  }
 }
