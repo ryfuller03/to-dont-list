@@ -41,6 +41,7 @@ class _ToDoListState extends State<ToDoList> {
                 child: const Text('OK'),
                 onPressed: () {
                   setState(() {
+                    _handleNewItem(valueText);
                     Navigator.pop(context);
                   });
                 },
@@ -56,7 +57,6 @@ class _ToDoListState extends State<ToDoList> {
                     onPressed: value.text.isNotEmpty
                         ? () {
                             setState(() {
-                              _handleNewItem(valueText);
                               Navigator.pop(context);
                             });
                           }
