@@ -12,19 +12,24 @@ class Item {
 
 typedef ToDoListChangedCallback = Function(Item item, bool completed);
 typedef ToDoListRemovedCallback = Function(Item item);
+typedef WorkoutInfo = Function(Workout workout);
 
 class ToDoListItem extends StatelessWidget {
-  ToDoListItem(
-      {required this.item,
-      required this.completed,
-      required this.onListChanged,
-      required this.onDeleteItem})
-      : super(key: ObjectKey(item));
+  ToDoListItem({
+    required this.item,
+    //required this.workout,
+    required this.completed,
+    required this.onListChanged,
+    required this.onDeleteItem,
+    //required this.info
+  }) : super(key: ObjectKey(item));
 
+  //final Workout workout;
   final Item item;
   final bool completed;
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
+  //final WorkoutInfo info;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -42,8 +47,41 @@ class ToDoListItem extends StatelessWidget {
 
     return const TextStyle(
       color: Colors.black54,
-      decoration: TextDecoration.lineThrough,
+      decoration: TextDecoration.none,
     );
+  }
+
+  void _displayInfo() {
+    print("Back Squat");
+    print("3 Sets");
+    print("10 Reps Each");
+  }
+
+  Workout work = const Workout(reps: 15, sets: 3);
+
+  Future<void> _displayWorkoutInfo(BuildContext context) async {
+    print("Showing information");
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Exercise Info'),
+            content: Column(children: [
+              Text("Exercise: ${item.name}"),
+              Text("Sets: ${work.sets}"),
+              Text("Reps: ${work.reps}"),
+            ]),
+            actions: <Widget>[
+              ElevatedButton(
+                key: const Key("Leave"),
+                child: const Text('Leave'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -52,11 +90,9 @@ class ToDoListItem extends StatelessWidget {
       onTap: () {
         onListChanged(item, completed);
       },
-      onLongPress: completed
-          ? () {
-              onDeleteItem(item);
-            }
-          : null,
+      onLongPress: () {
+        _displayWorkoutInfo(context);
+      },
       leading: CircleAvatar(
         backgroundColor: _getColor(context),
         child: Text(item.abbrev()),
@@ -67,4 +103,10 @@ class ToDoListItem extends StatelessWidget {
       ),
     );
   }
+}
+
+class Workout {
+  const Workout({required this.reps, required this.sets});
+  final int sets;
+  final int reps;
 }
