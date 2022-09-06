@@ -23,7 +23,7 @@ class _ToDoListState extends State<ToDoList> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Item To Add'),
+            title: const Text('Add exercise'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -38,7 +38,7 @@ class _ToDoListState extends State<ToDoList> {
               ElevatedButton(
                 key: const Key("OkButton"),
                 style: yesStyle,
-                child: const Text('OK'),
+                child: const Text('Add'),
                 onPressed: () {
                   setState(() {
                     _handleNewItem(valueText);
@@ -63,6 +63,40 @@ class _ToDoListState extends State<ToDoList> {
                         : null,
                     child: const Text('Cancel'),
                   );
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  Future<void> _getWorkoutInfo(BuildContext context) async {
+    print("Loading Dialog");
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Add exercise'),
+            content: TextField(
+              onChanged: (value) {
+                setState(() {
+                  valueText = value;
+                });
+              },
+              controller: _inputController,
+              decoration:
+                  const InputDecoration(hintText: "type something here"),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                key: const Key("OkButton"),
+                style: yesStyle,
+                child: const Text('Add'),
+                onPressed: () {
+                  setState(() {
+                    _handleNewItem(valueText);
+                    Navigator.pop(context);
+                  });
                 },
               ),
             ],
@@ -117,7 +151,8 @@ class _ToDoListState extends State<ToDoList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('To Do List'),
+          title: const Text('Workout Creator'),
+          backgroundColor: Colors.black,
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
