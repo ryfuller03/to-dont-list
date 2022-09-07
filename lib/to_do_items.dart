@@ -52,15 +52,25 @@ class ToDoListItem extends StatelessWidget {
       onTap: () {
         onListChanged(item, completed);
       },
+
+      // need this for the other CircleAvatar
       onLongPress: completed
           ? () {
               onDeleteItem(item);
             }
           : null,
       leading: CircleAvatar(
+        // check off button
         backgroundColor: _getColor(context),
         child: Text(item.abbrev()),
       ),
+      trailing: const CircleAvatar(
+          // dismiss button
+          backgroundColor: Colors.red,
+          child: Text(
+            "X",
+            style: TextStyle(color: Colors.white),
+          )),
       title: Text(
         item.name,
         style: _getTextStyle(context),
