@@ -5,11 +5,23 @@ A Flutter project that allows users to create their own workouts.
 ## About
 
 ### Audience
-*The targeted audience for this project is anyone who wants to be more organized and keep track of their workouts
+* The targeted audience for this project is anyone who wants to be more organized and keep track of their workouts
 
 ### Functionality
+* The app starts with an Example exercise already implemented
+* The user can then either long press the Example to see its information, or they can add a new exercise
+* To add a new exercise, the user must click the floating action button
+  * When the floating action button is pressed, the user will be prompted with TextFields for them to edit
+    * The 3 TextFields will have the Exercise name, the amount of sets, and the amount of reps
+  * The user can then confirm the action by pressing the "Add" button
+* The new exercise will then be added to the top of the list
+* To view the information for the newly added exercise, all the user needs to do is long press that specific exercise
+* Finally, to "finish" an exercise, all the user needs to do is simply tap that exercise and it will be greyed out
+  * Note: tapping the greyed out workout will give it color and it will be back in the list
 
 ### Practicality
+* This app is useful because it provides the opportunity for someone to keep track of a specific for the day
+* The workout creator app removes the need for people to remember everything in their head
 
 ### Screenshots
 
@@ -18,19 +30,3 @@ A Flutter project that allows users to create their own workouts.
 ![Added](https://github.com/iang0319/workout-creator/blob/46fa256d0a90ab59274387a8332abce058134ba7/images/ElementsAdded.png)
 ![View](https://github.com/iang0319/workout-creator/blob/46fa256d0a90ab59274387a8332abce058134ba7/images/ViewInfo.png)
 
-
-
-A README.md is written using [Markdown](https://www.markdownguide.org/), a simple language for formatting text that can be rendered as a web page. This README.md information will be displayed on the GitHub main page for your repository. Here is a resource specifically for Markdown syntax and GitHub.
-
-* <https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax>
-
-Now, with a text editor on your cloned repository, or by clicking on the edit icon ✏️ on the main github.com page for your forked repository, edit the README.md file in the root directory to provide details about your app’s functionality. Be sure to follow the guidelines of the GitHub documentation on what to include in your README.md file.
-
-* <https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes>
-
-The most important pieces to include right now are
-
-* Who is the audience for this app
-* What the app does
-* Why the app is useful
-* Multiple Screenshots of your app
