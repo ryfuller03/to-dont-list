@@ -12,19 +12,19 @@ import 'package:to_dont_list/main.dart';
 import 'package:to_dont_list/to_do_items.dart';
 
 void main() {
-  test('Item abbreviation should be first letter', () {
-    const item = Item(name: "add more todos");
-    expect(item.abbrev(), "a");
+  test('Workout abbreviation should be first letter', () {
+    const workout = Workout(name: "Backsquat", reps: "3", sets: "5");
+    expect(workout.abbrev(), "B");
   });
 
   // Yes, you really need the MaterialApp and Scaffold
-  testWidgets('ToDoListItem has a text', (tester) async {
+  testWidgets('Each workout has a text', (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: const Item(name: "test"),
+                workout: const Workout(name: "test", reps: "3", sets: "5"),
                 completed: true,
-                onListChanged: (Item item, bool completed) {},
+                onListChanged: (Workout workout, bool completed) {},
                 onDeleteItem: (Item item) {}))));
     final textFinder = find.text('test');
 
@@ -33,14 +33,14 @@ void main() {
     expect(textFinder, findsOneWidget);
   });
 
-  testWidgets('ToDoListItem has a Circle Avatar with abbreviation',
+  testWidgets('Each workout has a Circle Avatar with abbreviation',
       (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: const Item(name: "test"),
+                workout: const Workout(name: "test", reps: "3", sets: "5"),
                 completed: true,
-                onListChanged: (Item item, bool completed) {},
+                onListChanged: (Workout workout, bool completed) {},
                 onDeleteItem: (Item item) {}))));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
@@ -55,7 +55,7 @@ void main() {
     expect(ctext.data, "t");
   });
 
-  testWidgets('Default ToDoList has one item', (tester) async {
+  testWidgets('Default Workout has example', (tester) async {
     await tester.pumpWidget(const MaterialApp(home: ToDoList()));
 
     final listItemFinder = find.byType(ToDoListItem);
@@ -63,7 +63,8 @@ void main() {
     expect(listItemFinder, findsOneWidget);
   });
 
-  testWidgets('Clicking and Typing adds item to ToDoList', (tester) async {
+  testWidgets('Clicking and Typing adds item to Workout Creator',
+      (tester) async {
     await tester.pumpWidget(const MaterialApp(home: ToDoList()));
 
     expect(find.byType(TextField), findsNothing);
@@ -71,10 +72,18 @@ void main() {
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pump(); // Pump after every action to rebuild the widgets
     expect(find.text("hi"), findsNothing);
+    expect(find.text("5"), findsNothing);
+    expect(find.text("10"), findsNothing);
 
-    await tester.enterText(find.byType(TextField), 'hi');
+    await tester.enterText(find.byKey(Key('exKey')), 'hi');
+    await tester.enterText(find.byKey(Key('setsKey')), '5');
+    await tester.enterText(find.byKey(Key('repsKey')), '10');
+
     await tester.pump();
+
     expect(find.text("hi"), findsOneWidget);
+    expect(find.text("5"), findsOneWidget);
+    expect(find.text("10"), findsOneWidget);
 
     await tester.tap(find.byKey(const Key("OkButton")));
     await tester.pump();

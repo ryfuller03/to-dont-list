@@ -14,6 +14,9 @@ class _ToDoListState extends State<ToDoList> {
   final TextEditingController _inputController = TextEditingController();
   final TextEditingController _setsController = TextEditingController();
   final TextEditingController _repsController = TextEditingController();
+  final Key key1 = const Key("Exercise");
+  final Key key2 = const Key("Sets");
+  final Key key3 = const Key("Reps");
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
@@ -29,6 +32,7 @@ class _ToDoListState extends State<ToDoList> {
             content: Column(children: <Widget>[
               Text("Exercise"),
               TextField(
+                key: Key('exKey'),
                 onChanged: (value) {
                   setState(() {
                     valueText = value;
@@ -39,6 +43,7 @@ class _ToDoListState extends State<ToDoList> {
               ),
               Text("Sets"),
               TextField(
+                key: Key('setsKey'),
                 onChanged: (value2) {
                   setState(() {
                     sets = value2;
@@ -49,6 +54,7 @@ class _ToDoListState extends State<ToDoList> {
               ),
               Text("Reps"),
               TextField(
+                key: Key('repsKey'),
                 onChanged: (value3) {
                   setState(() {
                     reps = value3;
@@ -94,41 +100,6 @@ class _ToDoListState extends State<ToDoList> {
         });
   }
 
-/*
-  Future<void> _getWorkoutInfo(BuildContext context) async {
-    print("Getting info");
-    return showDialog(
-        context: context,
-        builder: (context2) {
-          return AlertDialog(
-            title: const Text('Add number of Sets'),
-            content: TextField(
-              onChanged: (value) {
-                setState(() {
-                  valueText = value;
-                });
-              },
-              controller: _inputController,
-              decoration:
-                  const InputDecoration(hintText: "type something here"),
-            ),
-            actions: <Widget>[
-              ElevatedButton(
-                key: const Key("OkButton"),
-                style: yesStyle,
-                child: const Text('Add'),
-                onPressed: () {
-                  setState(() {
-                    _handleNewItem(valueText);
-                    Navigator.pop(context2);
-                  });
-                },
-              ),
-            ],
-          );
-        });
-  }
-*/
   String valueText = "";
 
   String sets = "";
@@ -141,9 +112,9 @@ class _ToDoListState extends State<ToDoList> {
 
   final _workoutSet = <Workout>{};
 
-  final List<Item> items = [const Item(name: "add more todos")];
+  //final List<Item> items = [const Item(name: "add more todos")];
 
-  final _itemSet = <Item>{};
+  //final _itemSet = <Item>{};
 
   void _handleListChanged(Workout workout, bool completed) {
     setState(() {
@@ -169,7 +140,7 @@ class _ToDoListState extends State<ToDoList> {
   void _handleDeleteItem(Item item) {
     setState(() {
       print("Deleting item");
-      items.remove(item);
+      //items.remove(item);
     });
   }
 
@@ -178,9 +149,11 @@ class _ToDoListState extends State<ToDoList> {
       print("Adding new item");
       Workout workout_base = Workout(name: itemText, reps: rep, sets: set);
       workouts.insert(0, workout_base);
-      Item item = Item(name: itemText);
-      items.insert(0, item);
+      //Item item = Item(name: itemText);
+      //items.insert(0, item);
       _inputController.clear();
+      _setsController.clear();
+      _repsController.clear();
     });
   }
 
