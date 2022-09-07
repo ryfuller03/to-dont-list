@@ -112,10 +112,6 @@ class _ToDoListState extends State<ToDoList> {
 
   final _workoutSet = <Workout>{};
 
-  //final List<Item> items = [const Item(name: "add more todos")];
-
-  //final _itemSet = <Item>{};
-
   void _handleListChanged(Workout workout, bool completed) {
     setState(() {
       // When a user changes what's in the list, you need
@@ -140,7 +136,6 @@ class _ToDoListState extends State<ToDoList> {
   void _handleDeleteItem(Item item) {
     setState(() {
       print("Deleting item");
-      //items.remove(item);
     });
   }
 
@@ -149,8 +144,6 @@ class _ToDoListState extends State<ToDoList> {
       print("Adding new item");
       Workout workout_base = Workout(name: itemText, reps: rep, sets: set);
       workouts.insert(0, workout_base);
-      //Item item = Item(name: itemText);
-      //items.insert(0, item);
       _inputController.clear();
       _setsController.clear();
       _repsController.clear();
@@ -168,7 +161,6 @@ class _ToDoListState extends State<ToDoList> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: workouts.map((workout) {
             return ToDoListItem(
-              //item: workout,
               workout: workout,
               completed: _workoutSet.contains(workout),
               onListChanged: _handleListChanged,

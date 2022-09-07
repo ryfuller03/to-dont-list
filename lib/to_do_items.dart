@@ -12,24 +12,19 @@ class Item {
 
 typedef ToDoListChangedCallback = Function(Workout workout, bool completed);
 typedef ToDoListRemovedCallback = Function(Item item);
-//typedef WorkoutInfo = Function(Workout workout);
 
 class ToDoListItem extends StatelessWidget {
   ToDoListItem({
-    //required this.item,
     required this.workout,
     required this.completed,
     required this.onListChanged,
     required this.onDeleteItem,
-    //required this.info
   }) : super(key: ObjectKey(workout));
 
   final Workout workout;
-  //final Item item;
   final bool completed;
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
-  //final WorkoutInfo info;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -50,8 +45,6 @@ class ToDoListItem extends StatelessWidget {
       decoration: TextDecoration.none,
     );
   }
-
-  Workout work = const Workout(name: "Example", reps: "15", sets: "3");
 
   Future<void> _displayWorkoutInfo(BuildContext context) async {
     print("Showing information");
