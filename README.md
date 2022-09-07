@@ -30,3 +30,4 @@ A Flutter project that allows users to create their own workouts.
 ![Added](https://github.com/iang0319/workout-creator/blob/46fa256d0a90ab59274387a8332abce058134ba7/images/ElementsAdded.png)
 ![View](https://github.com/iang0319/workout-creator/blob/46fa256d0a90ab59274387a8332abce058134ba7/images/ViewInfo.png)
 
+![Complete](https://github.com/iang0319/workout-creator/blob/1f19ffa1af7b262f38058f2569c8a8a37c488d52/images/CompleteElement.png)
