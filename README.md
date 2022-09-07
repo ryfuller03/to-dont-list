@@ -1,10 +1,19 @@
-# To Don't List
+# Workout Creator
 
-A Flutter Demo project.
+A Flutter project that allows users to create their own workouts.
 
-## Edit Me
+## About
 
-This is the file you should edit to describe your modified app.
+### Audience
+*The targeted audience for this project is anyone who wants to be more organized and keep track of their workouts
+
+### Functionality
+
+### Practicality
+
+### Screenshots
+
+
 
 A README.md is written using [Markdown](https://www.markdownguide.org/), a simple language for formatting text that can be rendered as a web page. This README.md information will be displayed on the GitHub main page for your repository. Here is a resource specifically for Markdown syntax and GitHub.
 
