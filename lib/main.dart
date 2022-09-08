@@ -31,8 +31,7 @@ class _ToDoListState extends State<ToDoList> {
                 });
               },
               controller: _inputController,
-              decoration:
-                  const InputDecoration(hintText: "type something here"),
+              decoration: const InputDecoration(hintText: "Name of the Game"),
             ),
             actions: <Widget>[
               ElevatedButton(
@@ -72,7 +71,7 @@ class _ToDoListState extends State<ToDoList> {
 
   String valueText = "";
 
-  final List<Item> items = [const Item(name: "add more todos")];
+  final List<Item> items = [Item("Add some games and track your hours!", 0)];
 
   final _itemSet = <Item>{};
 
@@ -107,9 +106,21 @@ class _ToDoListState extends State<ToDoList> {
   void _handleNewItem(String itemText) {
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText);
+      Item item = Item(itemText, 0);
       items.insert(0, item);
       _inputController.clear();
+    });
+  }
+
+  void _handleIncrementCounter(Item item) {
+    setState(() {
+      item.incrementHourCounter();
+    });
+  }
+
+  void _handleDecrementCounter(Item item) {
+    setState(() {
+      item.decrementHourCounter();
     });
   }
 
@@ -117,17 +128,18 @@ class _ToDoListState extends State<ToDoList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('To Do List'),
+          title: const Text('Video Game Hour Tracker'),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: items.map((item) {
             return ToDoListItem(
-              item: item,
-              completed: _itemSet.contains(item),
-              onListChanged: _handleListChanged,
-              onDeleteItem: _handleDeleteItem,
-            );
+                item: item,
+                completed: _itemSet.contains(item),
+                onListChanged: _handleListChanged,
+                onDeleteItem: _handleDeleteItem,
+                onIncrementCounter: _handleIncrementCounter,
+                onDecrementCounter: _handleDecrementCounter);
           }).toList(),
         ),
         floatingActionButton: FloatingActionButton(

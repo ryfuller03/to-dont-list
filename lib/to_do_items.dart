@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 
 class Item {
-  const Item({required this.name});
-
   final String name;
+  int hourCounter = 0;
+
+  Item(this.name, this.hourCounter);
 
   String abbrev() {
     return name.substring(0, 1);
+  }
+
+  String incrementHourCounter() {
+    return (hourCounter += 1).toString();
+  }
+
+  String decrementHourCounter() {
+    return (hourCounter -= 1).toString();
   }
 }
 
@@ -18,13 +27,17 @@ class ToDoListItem extends StatelessWidget {
       {required this.item,
       required this.completed,
       required this.onListChanged,
-      required this.onDeleteItem})
+      required this.onDeleteItem,
+      required this.onIncrementCounter,
+      required this.onDecrementCounter})
       : super(key: ObjectKey(item));
 
   final Item item;
   final bool completed;
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
+  final ToDoListRemovedCallback onIncrementCounter;
+  final ToDoListRemovedCallback onDecrementCounter;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -32,9 +45,7 @@ class ToDoListItem extends StatelessWidget {
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
 
-    return completed //
-        ? Colors.black54
-        : Theme.of(context).primaryColor;
+    return completed ? Colors.black54 : Theme.of(context).primaryColor;
   }
 
   TextStyle? _getTextStyle(BuildContext context) {
@@ -49,28 +60,27 @@ class ToDoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        onListChanged(item, completed);
+      onLongPress: () {
+        onDeleteItem(item);
       },
-
-      // need this for the other CircleAvatar
-      onLongPress: completed
-          ? () {
-              onDeleteItem(item);
-            }
-          : null,
       leading: CircleAvatar(
         // check off button
         backgroundColor: _getColor(context),
-        child: Text(item.abbrev()),
+        child: Text(item.abbrev(), style: const TextStyle(color: Colors.white)),
       ),
-      trailing: const CircleAvatar(
-          // dismiss button
-          backgroundColor: Colors.red,
-          child: Text(
-            "X",
-            style: TextStyle(color: Colors.white),
-          )),
+      trailing: PopupMenuButton(
+        itemBuilder: (BuildContext context) => [
+          PopupMenuItem(
+              child: const Text("Add 1 Hour"),
+              onTap: () {
+                item.incrementHourCounter();
+                print(item.hourCounter);
+              }),
+          PopupMenuItem(
+              child: const Text("Subtract 1 Hour"),
+              onTap: () => item.decrementHourCounter())
+        ],
+      ),
       title: Text(
         item.name,
         style: _getTextStyle(context),

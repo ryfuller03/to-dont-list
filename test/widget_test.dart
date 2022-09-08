@@ -13,7 +13,7 @@ import 'package:to_dont_list/to_do_items.dart';
 
 void main() {
   test('Item abbreviation should be first letter', () {
-    const item = Item(name: "add more todos");
+    Item item = Item("add more todos", 0);
     expect(item.abbrev(), "a");
   });
 
@@ -22,10 +22,12 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: const Item(name: "test"),
+                item: Item("test", 0),
                 completed: true,
                 onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
+                onDeleteItem: (Item item) {},
+                onIncrementCounter: (Item item) {},
+                onDecrementCounter: (Item item) {}))));
     final textFinder = find.text('test');
 
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
@@ -38,10 +40,12 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: const Item(name: "test"),
+                item: Item("test", 0),
                 completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {}))));
+                onListChanged: (item, completed) => {},
+                onDeleteItem: (item) => {},
+                onIncrementCounter: (Item item) {},
+                onDecrementCounter: (Item item) {}))));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
 
