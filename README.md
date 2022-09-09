@@ -1,22 +1,17 @@
-# To Don't List
+# Video Game Hour Tracker
 
-A Flutter Demo project.
+## What does it do?
+The Video Game Hour Tracker allows you to input your own video games into the app and track how many hours you've played in it.
 
-## Edit Me
+## Who is it for? Why is it useful?
+If there's one game you've played for a while, at some point, you've probably asked yourself..."How much time have I put into this instead of doing anything remotely productive?" This app is for anyone who would like to record how many hours they've put into a game they love.
 
-This is the file you should edit to describe your modified app.
+## Screenshots
+### The main screen of the app:
+![App Main Screen](https://github.com/ryfuller03/video-game-hour-tracker/blob/main/image1.PNG)
 
-A README.md is written using [Markdown](https://www.markdownguide.org/), a simple language for formatting text that can be rendered as a web page. This README.md information will be displayed on the GitHub main page for your repository. Here is a resource specifically for Markdown syntax and GitHub.
+### Adding a video game to the list:
+![Adding Video Game](https://github.com/ryfuller03/video-game-hour-tracker/blob/main/image2.PNG)
 
-* <https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax>
-
-Now, with a text editor on your cloned repository, or by clicking on the edit icon ✏️ on the main github.com page for your forked repository, edit the README.md file in the root directory to provide details about your app’s functionality. Be sure to follow the guidelines of the GitHub documentation on what to include in your README.md file.
-
-* <https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes>
-
-The most important pieces to include right now are
-
-* Who is the audience for this app
-* What the app does
-* Why the app is useful
-* Multiple Screenshots of your app
+### Recording hours on that video game:
+![Minecraft - Hours: 127](https://github.com/ryfuller03/video-game-hour-tracker/blob/main/image3.PNG)
