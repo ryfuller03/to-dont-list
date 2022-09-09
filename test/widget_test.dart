@@ -89,5 +89,19 @@ void main() {
     expect(listItemFinder, findsNWidgets(2));
   });
 
+  testWidgets(
+      'TrailingButtonsWidget adds and subtracts from the Hours counter', // TrailingButtonsWidget class
+      (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    await tester.tap(find.byIcon(Icons.arrow_upward)); // tests adding
+    await tester.pump();
+    expect(find.text("Hours: 1"), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.arrow_downward)); // tests subtracting
+    await tester.pump();
+    expect(find.text("Hours: 0"), findsOneWidget);
+  });
+
   // One to test the tap and press actions on the items?
 }

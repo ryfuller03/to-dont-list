@@ -15,12 +15,50 @@ class Item {
   }
 
   String decrementHourCounter() {
+    if (hourCounter - 1 < 0) {
+      return "0";
+    }
     return (hourCounter -= 1).toString();
   }
 }
 
 typedef ToDoListChangedCallback = Function(Item item, bool completed);
 typedef ToDoListRemovedCallback = Function(Item item);
+
+class TrailingButtonsWidget extends StatelessWidget {
+  TrailingButtonsWidget(
+      {super.key,
+      required this.item,
+      required this.onIncrementCounter,
+      required this.onDecrementCounter});
+
+  final Item item;
+  dynamic onIncrementCounter;
+  dynamic onDecrementCounter;
+
+  void ButtonsIncrementHourCounter() {
+    onIncrementCounter(item);
+  }
+
+  void ButtonsDecrementHourCounter() {
+    onDecrementCounter(item);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+      TextButton(
+          child: Icon(Icons.arrow_upward),
+          onPressed: ButtonsIncrementHourCounter),
+      TextButton(
+          child: Icon(Icons.arrow_downward),
+          onPressed: ButtonsDecrementHourCounter)
+    ]));
+  }
+}
+
+// FIGURE OUT HOW TO MAKE onIncrementCounter NOT TAKE IN A PARAMETER (put in ToDoListItem???)
 
 class ToDoListItem extends StatelessWidget {
   ToDoListItem(
@@ -68,23 +106,17 @@ class ToDoListItem extends StatelessWidget {
         backgroundColor: _getColor(context),
         child: Text(item.abbrev(), style: const TextStyle(color: Colors.white)),
       ),
-      trailing: PopupMenuButton(
-        itemBuilder: (BuildContext context) => [
-          PopupMenuItem(
-              child: const Text("Add 1 Hour"),
-              onTap: () {
-                item.incrementHourCounter();
-                print(item.hourCounter);
-              }),
-          PopupMenuItem(
-              child: const Text("Subtract 1 Hour"),
-              onTap: () => item.decrementHourCounter())
-        ],
-      ),
       title: Text(
         item.name,
         style: _getTextStyle(context),
       ),
+      trailing: TrailingButtonsWidget(
+          key: key,
+          item: item,
+          onIncrementCounter: onIncrementCounter,
+          onDecrementCounter: onDecrementCounter),
+      subtitle: Text("Hours: " + item.hourCounter.toString(),
+          style: _getTextStyle(context)),
     );
   }
 }

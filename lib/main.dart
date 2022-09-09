@@ -152,7 +152,7 @@ class _ToDoListState extends State<ToDoList> {
 
 void main() {
   runApp(const MaterialApp(
-    title: 'To Do List',
+    title: 'Video Game Hour Tracker',
     home: ToDoList(),
   ));
 }
