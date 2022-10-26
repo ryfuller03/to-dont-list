@@ -27,7 +27,8 @@ class Item {
 
   String decrementBy10() {
     if (hourCounter - 10 < 0) {
-      return '0';
+      //This will reset the counter to 0 if the long press subtraction by 10 is below 0
+      return (hourCounter -= hourCounter).toString();
     }
     return (hourCounter -= 10).toString();
   }
