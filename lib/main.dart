@@ -124,6 +124,18 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
+  void _handlePlus10(Item item) {
+    setState(() {
+      item.incrementBy10();
+    });
+  }
+
+  void _handleMinus10(Item item) {
+    setState(() {
+      item.decrementBy10();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,12 +146,15 @@ class _ToDoListState extends State<ToDoList> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: items.map((item) {
             return ToDoListItem(
-                item: item,
-                completed: _itemSet.contains(item),
-                onListChanged: _handleListChanged,
-                onDeleteItem: _handleDeleteItem,
-                onIncrementCounter: _handleIncrementCounter,
-                onDecrementCounter: _handleDecrementCounter);
+              item: item,
+              completed: _itemSet.contains(item),
+              onListChanged: _handleListChanged,
+              onDeleteItem: _handleDeleteItem,
+              onIncrementCounter: _handleIncrementCounter,
+              onDecrementCounter: _handleDecrementCounter,
+              on10Increment: _handlePlus10,
+              on10Decrement: _handleMinus10,
+            );
           }).toList(),
         ),
         floatingActionButton: FloatingActionButton(
