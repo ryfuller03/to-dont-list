@@ -22,12 +22,15 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: Item("test", 0),
-                completed: true,
-                onListChanged: (Item item, bool completed) {},
-                onDeleteItem: (Item item) {},
-                onIncrementCounter: (Item item) {},
-                onDecrementCounter: (Item item) {}))));
+      item: Item("test", 0),
+      completed: true,
+      onListChanged: (Item item, bool completed) {},
+      onDeleteItem: (Item item) {},
+      onIncrementCounter: (Item item) {},
+      onDecrementCounter: (Item item) {},
+      on10Increment: (Item item) {},
+      on10Decrement: (Item item) {},
+    ))));
     final textFinder = find.text('test');
 
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
@@ -40,12 +43,15 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
             body: ToDoListItem(
-                item: Item("test", 0),
-                completed: true,
-                onListChanged: (item, completed) => {},
-                onDeleteItem: (item) => {},
-                onIncrementCounter: (Item item) {},
-                onDecrementCounter: (Item item) {}))));
+      item: Item("test", 0),
+      completed: true,
+      onListChanged: (item, completed) => {},
+      onDeleteItem: (item) => {},
+      onIncrementCounter: (Item item) {},
+      onDecrementCounter: (Item item) {},
+      on10Increment: (Item item) {},
+      on10Decrement: (Item item) {},
+    ))));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
 
@@ -99,6 +105,17 @@ void main() {
     expect(find.text("Hours: 1"), findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.arrow_downward)); // tests subtracting
+    await tester.pump();
+    expect(find.text("Hours: 0"), findsOneWidget);
+  });
+
+  testWidgets("TrailingButtonsWidget long press functionality", (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+    await tester.longPress(find.byIcon(Icons.arrow_upward));
+    await tester.pump();
+    expect(find.text("Hours: 10"), findsOneWidget);
+
+    await tester.longPress(find.byIcon(Icons.arrow_downward));
     await tester.pump();
     expect(find.text("Hours: 0"), findsOneWidget);
   });
