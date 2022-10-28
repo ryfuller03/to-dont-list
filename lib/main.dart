@@ -97,6 +97,21 @@ class _ToDoListState extends State<ToDoList> {
 
   final _itemSet = <Item>{};
 
+  /// Sorts items in an order compatible with a ListView.
+  void sortItemList() {    
+    /// Sorts Items descending by hour count, then ascending by name.
+    int compareItemsForListView(Item a, Item b) {
+      int compareHours = b.hourCounter.compareTo(a.hourCounter);
+      if (compareHours != 0) {
+        return compareHours;
+      } else {
+        return a.name.compareTo(b.name);
+      }
+    }
+    // thanks to stackoverflow.com/questions/53547997 and Dart docs
+    items.sort(compareItemsForListView);
+  }
+
   void _handleListChanged(Item item, bool completed) {
     setState(() {
       // When a user changes what's in the list, you need
@@ -132,30 +147,35 @@ class _ToDoListState extends State<ToDoList> {
       items.insert(0, item);
       _nameInputController.clear();
       _numberInputController.clear();
+      sortItemList();
     });
   }
 
   void _handleIncrementCounter(Item item) {
     setState(() {
       item.incrementHourCounter();
+      sortItemList();
     });
   }
 
   void _handleDecrementCounter(Item item) {
     setState(() {
       item.decrementHourCounter();
+      sortItemList();
     });
   }
 
   void _handlePlus10(Item item) {
     setState(() {
       item.incrementBy10();
+      sortItemList();
     });
   }
 
   void _handleMinus10(Item item) {
     setState(() {
       item.decrementBy10();
+      sortItemList();
     });
   }
 
