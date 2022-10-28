@@ -1,5 +1,6 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:to_dont_list/to_do_items.dart';
 
 class ToDoList extends StatefulWidget {
@@ -11,65 +12,86 @@ class ToDoList extends StatefulWidget {
 
 class _ToDoListState extends State<ToDoList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
-  final TextEditingController _inputController = TextEditingController();
+  final TextEditingController _nameInputController = TextEditingController();
+  final TextEditingController _numberInputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
+
+    String newGameName = "";
+    int startingHourCount = 0;
+
     print("Loading Dialog");
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Item To Add'),
-            content: TextField(
-              onChanged: (value) {
-                setState(() {
-                  valueText = value;
-                });
-              },
-              controller: _inputController,
-              decoration: const InputDecoration(hintText: "Name of the Game"),
+            title: const Text('Add Game'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      newGameName = value;
+                    });
+                  },
+                  controller: _nameInputController,
+                  decoration: const InputDecoration(hintText: "Title"),
+                ),
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      startingHourCount = int.tryParse(value) ?? startingHourCount;
+                    });
+                  },
+                  controller: _numberInputController,
+                  decoration: const InputDecoration(hintText: "Initial hour count"),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                ),
+              ],
             ),
             actions: <Widget>[
-              ElevatedButton(
-                key: const Key("OKButton"),
-                style: yesStyle,
-                child: const Text('OK'),
-                onPressed: () {
-                  setState(() {
-                    _handleNewItem(valueText);
-                    Navigator.pop(context);
-                  });
-                },
-              ),
 
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
-                valueListenable: _inputController,
+                valueListenable: _nameInputController,
                 builder: (context, value, child) {
                   return ElevatedButton(
-                    key: const Key("CancelButton"),
-                    style: noStyle,
+                    key: const Key("OKButton"),
+                    style: yesStyle,
+                    child: const Text('OK'),
                     onPressed: value.text.isNotEmpty
-                        ? () {
-                            setState(() {
-                              Navigator.pop(context);
-                            });
-                          }
-                        : null,
-                    child: const Text('Cancel'),
+                      ? () {
+                          setState(() {
+                            _handleNewItem(newGameName, startingHourCount);
+                            Navigator.pop(context);
+                          });
+                        }
+                      : null,
                   );
                 },
+              ),
+              ElevatedButton(
+                key: const Key("CancelButton"),
+                style: noStyle,
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                  });
+                },
+                child: const Text('Cancel'),
               ),
             ],
           );
         });
   }
-
-  String valueText = "";
 
   final List<Item> items = [Item("Add some games and track your hours!", 0)];
 
@@ -103,12 +125,13 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleNewItem(String itemText) {
+  void _handleNewItem(String itemText, int itemHours) {
     setState(() {
       print("Adding new item");
-      Item item = Item(itemText, 0);
+      Item item = Item(itemText, itemHours);
       items.insert(0, item);
-      _inputController.clear();
+      _nameInputController.clear();
+      _numberInputController.clear();
     });
   }
 
