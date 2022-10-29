@@ -82,7 +82,7 @@ void main() {
     await tester.pump(); // Pump after every action to rebuild the widgets
     expect(find.text("hi"), findsNothing);
 
-    await tester.enterText(find.byType(TextField), 'hi');
+    await tester.enterText(find.byKey(const Key('TitleField')), 'hi');
     await tester.pump();
     expect(find.text("hi"), findsOneWidget);
 
@@ -118,6 +118,19 @@ void main() {
     await tester.longPress(find.byIcon(Icons.arrow_downward));
     await tester.pump();
     expect(find.text("Hours: 0"), findsOneWidget);
+  });
+
+  testWidgets('The numeric TextField initializes a game\'s hour count', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+    
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pump();
+
+    await tester.enterText(find.byKey(const Key('TitleField')), 'Test Game');
+    await tester.enterText(find.byKey(const Key('HourField')), '1234');
+    await tester.tap(find.byKey(const Key('OKButton')));
+
+    expect(find.text('Hours: 1234'), findsOneWidget);
   });
 
   // One to test the tap and press actions on the items?

@@ -34,6 +34,7 @@ class _ToDoListState extends State<ToDoList> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
+                  key: const Key('TitleField'),
                   onChanged: (value) {
                     setState(() {
                       newGameName = value;
@@ -43,6 +44,7 @@ class _ToDoListState extends State<ToDoList> {
                   decoration: const InputDecoration(hintText: "Title"),
                 ),
                 TextField(
+                  key: const Key('HourField'),
                   onChanged: (value) {
                     setState(() {
                       startingHourCount = int.tryParse(value) ?? startingHourCount;
