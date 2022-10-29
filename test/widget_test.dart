@@ -23,7 +23,6 @@ void main() {
         home: Scaffold(
           body: ToDoListItem(
             item: Item("test", 0),
-            completed: true,
             onDeleteItem: (Item item) {}, 
             onCounterUpdate: (Item item, int amount) => 
               item.updateHourCounter(amount),
@@ -43,7 +42,6 @@ void main() {
         home: Scaffold(
           body: ToDoListItem(
             item: Item("test", 0),
-            completed: true,
             onDeleteItem: (item) => {}, 
             onCounterUpdate: (Item item, int amount) => 
               item.updateHourCounter(amount),
@@ -59,7 +57,6 @@ void main() {
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
     // that the Text widgets appear exactly once in the widget tree.
     expect(abbvFinder, findsOneWidget);
-    expect(circ.backgroundColor, Colors.black54);
     expect(ctext.data, "t");
   });
 

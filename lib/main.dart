@@ -99,8 +99,6 @@ class _ToDoListState extends State<ToDoList> {
 
   final List<Item> items = [Item("Add some games and track your hours!", 0)];
 
-  final _itemSet = <Item>{};
-
   /// Sorts items in an order compatible with a ListView.
   void sortItemList() {    
     /// Sorts Items descending by hour count, then ascending by name.
@@ -150,7 +148,6 @@ class _ToDoListState extends State<ToDoList> {
           children: items.map((item) {
             return ToDoListItem(
               item: item,
-              completed: _itemSet.contains(item),
               onDeleteItem: _handleDeleteItem,
               onCounterUpdate: _handleUpdateCounter,
             );

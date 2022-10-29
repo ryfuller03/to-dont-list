@@ -65,33 +65,13 @@ class TrailingButtonsWidget extends StatelessWidget {
 class ToDoListItem extends StatelessWidget {
   ToDoListItem(
       {required this.item,
-      required this.completed,
       required this.onDeleteItem,
       required this.onCounterUpdate})
       : super(key: ObjectKey(item));
 
   final Item item;
-  final bool completed;
   final ToDoListRemovedCallback onDeleteItem;
   final CounterUpdateCallback onCounterUpdate;
-
-  Color _getColor(BuildContext context) {
-    // The theme depends on the BuildContext because different
-    // parts of the tree can have different themes.
-    // The BuildContext indicates where the build is
-    // taking place and therefore which theme to use.
-
-    return completed ? Colors.black54 : Theme.of(context).primaryColor;
-  }
-
-  TextStyle? _getTextStyle(BuildContext context) {
-    if (!completed) return null;
-
-    return const TextStyle(
-      color: Colors.black54,
-      decoration: TextDecoration.lineThrough,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,20 +81,16 @@ class ToDoListItem extends StatelessWidget {
       },
       leading: CircleAvatar(
         // check off button
-        backgroundColor: _getColor(context),
+        backgroundColor: Theme.of(context).primaryColor,
         child: Text(item.abbrev(), style: const TextStyle(color: Colors.white)),
       ),
-      title: Text(
-        item.name,
-        style: _getTextStyle(context),
-      ),
+      title: Text(item.name),
       trailing: TrailingButtonsWidget(
         key: key,
         item: item,
         onCounterUpdate: onCounterUpdate,
       ),
-      subtitle: Text("Hours: ${item.hourCounter}",
-          style: _getTextStyle(context)),
+      subtitle: Text("Hours: ${item.hourCounter}"),
     );
   }
 }
