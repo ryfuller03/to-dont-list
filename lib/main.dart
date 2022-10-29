@@ -114,27 +114,6 @@ class _ToDoListState extends State<ToDoList> {
     items.sort(compareItemsForListView);
   }
 
-  void _handleListChanged(Item item, bool completed) {
-    setState(() {
-      // When a user changes what's in the list, you need
-      // to change _itemSet inside a setState call to
-      // trigger a rebuild.
-      // The framework then calls build, below,
-      // which updates the visual appearance of the app.
-
-      items.remove(item);
-      if (!completed) {
-        print("Completing");
-        _itemSet.add(item);
-        items.add(item);
-      } else {
-        print("Making Undone");
-        _itemSet.remove(item);
-        items.insert(0, item);
-      }
-    });
-  }
-
   void _handleDeleteItem(Item item) {
     setState(() {
       print("Deleting item");
@@ -153,30 +132,9 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleIncrementCounter(Item item) {
+  void _handleUpdateCounter(Item item, int amount) {
     setState(() {
-      item.incrementHourCounter();
-      sortItemList();
-    });
-  }
-
-  void _handleDecrementCounter(Item item) {
-    setState(() {
-      item.decrementHourCounter();
-      sortItemList();
-    });
-  }
-
-  void _handlePlus10(Item item) {
-    setState(() {
-      item.incrementBy10();
-      sortItemList();
-    });
-  }
-
-  void _handleMinus10(Item item) {
-    setState(() {
-      item.decrementBy10();
+      item.updateHourCounter(amount);
       sortItemList();
     });
   }
@@ -193,12 +151,8 @@ class _ToDoListState extends State<ToDoList> {
             return ToDoListItem(
               item: item,
               completed: _itemSet.contains(item),
-              onListChanged: _handleListChanged,
               onDeleteItem: _handleDeleteItem,
-              onIncrementCounter: _handleIncrementCounter,
-              onDecrementCounter: _handleDecrementCounter,
-              on10Increment: _handlePlus10,
-              on10Decrement: _handleMinus10,
+              onCounterUpdate: _handleUpdateCounter,
             );
           }).toList(),
         ),

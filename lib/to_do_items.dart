@@ -10,19 +10,9 @@ class Item {
     return name.substring(0, 1);
   }
 
-  String incrementHourCounter() {
-    return (hourCounter += 1).toString();
-  }
-
-  String decrementHourCounter() {
-    if (hourCounter - 1 < 0) {
-      return "0";
-    }
-    return (hourCounter -= 1).toString();
-  }
-
-  String incrementBy10() {
-    return (hourCounter += 10).toString();
+  String updateHourCounter(int amount) {
+    if (hourCounter + amount < 0) { amount = -hourCounter; }
+    return (hourCounter += amount).toString();
   }
 
   String decrementBy10() {
@@ -36,36 +26,31 @@ class Item {
 
 typedef ToDoListChangedCallback = Function(Item item, bool completed);
 typedef ToDoListRemovedCallback = Function(Item item);
+typedef CounterUpdateCallback = Function(Item item, int amount);
 
 class TrailingButtonsWidget extends StatelessWidget {
   TrailingButtonsWidget(
       {super.key,
       required this.item,
-      required this.onIncrementCounter,
-      required this.onDecrementCounter,
-      required this.on10Increment,
-      required this.on10Decrement});
+      required this.onCounterUpdate,});
 
   final Item item;
-  dynamic onIncrementCounter;
-  dynamic onDecrementCounter;
-  dynamic on10Increment;
-  dynamic on10Decrement;
+  final CounterUpdateCallback onCounterUpdate;
 
   void ButtonsIncrementHourCounter() {
-    onIncrementCounter(item);
+    onCounterUpdate(item, 1);
   }
 
   void ButtonsDecrementHourCounter() {
-    onDecrementCounter(item);
+    onCounterUpdate(item, -1);
   }
 
   void ButtonsIncrement10Counter() {
-    on10Increment(item);
+    onCounterUpdate(item, 10);
   }
 
   void ButtonsDecrement10Counter() {
-    on10Decrement(item);
+    onCounterUpdate(item, -10);
   }
 
   @override
@@ -91,22 +76,14 @@ class ToDoListItem extends StatelessWidget {
   ToDoListItem(
       {required this.item,
       required this.completed,
-      required this.onListChanged,
       required this.onDeleteItem,
-      required this.onIncrementCounter,
-      required this.onDecrementCounter,
-      required this.on10Increment,
-      required this.on10Decrement})
+      required this.onCounterUpdate})
       : super(key: ObjectKey(item));
 
   final Item item;
   final bool completed;
-  final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
-  final ToDoListRemovedCallback onIncrementCounter;
-  final ToDoListRemovedCallback onDecrementCounter;
-  final ToDoListRemovedCallback on10Increment;
-  final ToDoListRemovedCallback on10Decrement;
+  final CounterUpdateCallback onCounterUpdate;
 
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
@@ -144,10 +121,7 @@ class ToDoListItem extends StatelessWidget {
       trailing: TrailingButtonsWidget(
         key: key,
         item: item,
-        onIncrementCounter: onIncrementCounter,
-        onDecrementCounter: onDecrementCounter,
-        on10Increment: on10Increment,
-        on10Decrement: on10Decrement,
+        onCounterUpdate: onCounterUpdate,
       ),
       subtitle: Text("Hours: " + item.hourCounter.toString(),
           style: _getTextStyle(context)),
