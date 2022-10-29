@@ -15,16 +15,16 @@ class _ToDoListState extends State<ToDoList> {
   final TextEditingController _nameInputController = TextEditingController();
   final TextEditingController _numberInputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.green);
+      textStyle: const TextStyle(fontSize: 20), 
+      backgroundColor: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), primary: Colors.red);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
 
     String newGameName = "";
     int startingHourCount = 0;
 
-    print("Loading Dialog");
     return showDialog(
         context: context,
         builder: (context) {
@@ -47,11 +47,13 @@ class _ToDoListState extends State<ToDoList> {
                   key: const Key('HourField'),
                   onChanged: (value) {
                     setState(() {
-                      startingHourCount = int.tryParse(value) ?? startingHourCount;
+                      startingHourCount = 
+                          int.tryParse(value) ?? startingHourCount;
                     });
                   },
                   controller: _numberInputController,
-                  decoration: const InputDecoration(hintText: "Initial hour count"),
+                  decoration: const InputDecoration(
+                      hintText: "Initial hour count"),
                   keyboardType: TextInputType.number,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly
@@ -68,7 +70,6 @@ class _ToDoListState extends State<ToDoList> {
                   return ElevatedButton(
                     key: const Key("OKButton"),
                     style: yesStyle,
-                    child: const Text('OK'),
                     onPressed: value.text.isNotEmpty
                       ? () {
                           setState(() {
@@ -77,6 +78,7 @@ class _ToDoListState extends State<ToDoList> {
                           });
                         }
                       : null,
+                    child: const Text('OK'),
                   );
                 },
               ),
@@ -116,14 +118,12 @@ class _ToDoListState extends State<ToDoList> {
 
   void _handleDeleteItem(Item item) {
     setState(() {
-      print("Deleting item");
       items.remove(item);
     });
   }
 
   void _handleNewItem(String itemText, int itemHours) {
     setState(() {
-      print("Adding new item");
       Item item = Item(itemText, itemHours);
       items.insert(0, item);
       _nameInputController.clear();

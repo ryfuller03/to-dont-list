@@ -14,14 +14,6 @@ class Item {
     if (hourCounter + amount < 0) { amount = -hourCounter; }
     return (hourCounter += amount).toString();
   }
-
-  String decrementBy10() {
-    if (hourCounter - 10 < 0) {
-      //This will reset the counter to 0 if the long press subtraction by 10 is below 0
-      return (hourCounter -= hourCounter).toString();
-    }
-    return (hourCounter -= 10).toString();
-  }
 }
 
 typedef ToDoListChangedCallback = Function(Item item, bool completed);
@@ -29,7 +21,7 @@ typedef ToDoListRemovedCallback = Function(Item item);
 typedef CounterUpdateCallback = Function(Item item, int amount);
 
 class TrailingButtonsWidget extends StatelessWidget {
-  TrailingButtonsWidget(
+  const TrailingButtonsWidget(
       {super.key,
       required this.item,
       required this.onCounterUpdate,});
@@ -37,40 +29,38 @@ class TrailingButtonsWidget extends StatelessWidget {
   final Item item;
   final CounterUpdateCallback onCounterUpdate;
 
-  void ButtonsIncrementHourCounter() {
+  void onUpArrowTap() {
     onCounterUpdate(item, 1);
   }
 
-  void ButtonsDecrementHourCounter() {
+  void onDownArrowTap() {
     onCounterUpdate(item, -1);
   }
 
-  void ButtonsIncrement10Counter() {
+  void onUpArrowLongPress() {
     onCounterUpdate(item, 10);
   }
 
-  void ButtonsDecrement10Counter() {
+  void onDownArrowLongPress() {
     onCounterUpdate(item, -10);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Row(mainAxisSize: MainAxisSize.min, children: [
-      TextButton(
-          child: Icon(Icons.arrow_upward),
-          onPressed: ButtonsIncrementHourCounter,
-          onLongPress: ButtonsIncrement10Counter),
-      TextButton(
-        child: Icon(Icons.arrow_downward),
-        onPressed: ButtonsDecrementHourCounter,
-        onLongPress: ButtonsDecrement10Counter,
-      )
-    ]));
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+        TextButton(
+          onPressed: onUpArrowTap,
+          onLongPress: onUpArrowLongPress,
+          child: const Icon(Icons.arrow_upward),
+        ),
+        TextButton(
+          onPressed: onDownArrowTap,
+          onLongPress: onDownArrowLongPress,
+          child: const Icon(Icons.arrow_downward),
+        ),
+    ]);
   }
 }
-
-// FIGURE OUT HOW TO MAKE onIncrementCounter NOT TAKE IN A PARAMETER (put in ToDoListItem???)
 
 class ToDoListItem extends StatelessWidget {
   ToDoListItem(
@@ -123,7 +113,7 @@ class ToDoListItem extends StatelessWidget {
         item: item,
         onCounterUpdate: onCounterUpdate,
       ),
-      subtitle: Text("Hours: " + item.hourCounter.toString(),
+      subtitle: Text("Hours: ${item.hourCounter}",
           style: _getTextStyle(context)),
     );
   }

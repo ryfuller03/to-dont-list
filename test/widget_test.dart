@@ -21,16 +21,15 @@ void main() {
   testWidgets('ToDoListItem has a text', (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-            body: ToDoListItem(
-      item: Item("test", 0),
-      completed: true,
-      onListChanged: (Item item, bool completed) {},
-      onDeleteItem: (Item item) {},
-      onIncrementCounter: (Item item) {},
-      onDecrementCounter: (Item item) {},
-      on10Increment: (Item item) {},
-      on10Decrement: (Item item) {},
-    ))));
+          body: ToDoListItem(
+            item: Item("test", 0),
+            completed: true,
+            onDeleteItem: (Item item) {}, 
+            onCounterUpdate: (Item item, int amount) => 
+              item.updateHourCounter(amount),
+          )
+        )
+    ));
     final textFinder = find.text('test');
 
     // Use the `findsOneWidget` matcher provided by flutter_test to verify
@@ -42,16 +41,15 @@ void main() {
       (tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-            body: ToDoListItem(
-      item: Item("test", 0),
-      completed: true,
-      onListChanged: (item, completed) => {},
-      onDeleteItem: (item) => {},
-      onIncrementCounter: (Item item) {},
-      onDecrementCounter: (Item item) {},
-      on10Increment: (Item item) {},
-      on10Decrement: (Item item) {},
-    ))));
+          body: ToDoListItem(
+            item: Item("test", 0),
+            completed: true,
+            onDeleteItem: (item) => {}, 
+            onCounterUpdate: (Item item, int amount) => 
+              item.updateHourCounter(amount),
+          )
+        )
+    ));
     final abbvFinder = find.text('t');
     final avatarFinder = find.byType(CircleAvatar);
 
@@ -120,18 +118,22 @@ void main() {
     expect(find.text("Hours: 0"), findsOneWidget);
   });
 
-  testWidgets('The numeric TextField initializes a game\'s hour count', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
-    
-    await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump();
+  testWidgets(
+    "The numeric TextField initializes a game's hour count", 
+    (tester) async {
+      await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+      
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pump();
 
-    await tester.enterText(find.byKey(const Key('TitleField')), 'Test Game');
-    await tester.enterText(find.byKey(const Key('HourField')), '1234');
-    await tester.tap(find.byKey(const Key('OKButton')));
+      await tester.enterText(find.byKey(const Key('TitleField')), 'Test Game');
+      await tester.enterText(find.byKey(const Key('HourField')), '1234');
+      await tester.tap(find.byKey(const Key('OKButton')));
+      await tester.pump();
 
-    expect(find.text('Hours: 1234'), findsOneWidget);
-  });
+      expect(find.text('Hours: 1234'), findsOneWidget);
+    }
+  );
 
   // One to test the tap and press actions on the items?
 }
