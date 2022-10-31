@@ -7,7 +7,7 @@ class ToDoList extends StatefulWidget {
 
   @override
   State createState() => _ToDoListState();
-}
+} // comment
 
 class _ToDoListState extends State<ToDoList> {
   // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
