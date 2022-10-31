@@ -10,121 +10,68 @@ class Item {
     return name.substring(0, 1);
   }
 
-  String incrementHourCounter() {
-    return (hourCounter += 1).toString();
-  }
-
-  String decrementHourCounter() {
-    if (hourCounter - 1 < 0) {
-      return "0";
-    }
-    return (hourCounter -= 1).toString();
-  }
-
-  String incrementBy10() {
-    return (hourCounter += 10).toString();
-  }
-
-  String decrementBy10() {
-    if (hourCounter - 10 < 0) {
-      //This will reset the counter to 0 if the long press subtraction by 10 is below 0
-      return (hourCounter -= hourCounter).toString();
-    }
-    return (hourCounter -= 10).toString();
+  String updateHourCounter(int amount) {
+    if (hourCounter + amount < 0) { amount = -hourCounter; }
+    return (hourCounter += amount).toString();
   }
 }
 
 typedef ToDoListChangedCallback = Function(Item item, bool completed);
 typedef ToDoListRemovedCallback = Function(Item item);
+typedef CounterUpdateCallback = Function(Item item, int amount);
 
 class TrailingButtonsWidget extends StatelessWidget {
-  TrailingButtonsWidget(
+  const TrailingButtonsWidget(
       {super.key,
       required this.item,
-      required this.onIncrementCounter,
-      required this.onDecrementCounter,
-      required this.on10Increment,
-      required this.on10Decrement});
+      required this.onCounterUpdate,});
 
   final Item item;
-  dynamic onIncrementCounter;
-  dynamic onDecrementCounter;
-  dynamic on10Increment;
-  dynamic on10Decrement;
+  final CounterUpdateCallback onCounterUpdate;
 
-  void ButtonsIncrementHourCounter() {
-    onIncrementCounter(item);
+  void onUpArrowTap() {
+    onCounterUpdate(item, 1);
   }
 
-  void ButtonsDecrementHourCounter() {
-    onDecrementCounter(item);
+  void onDownArrowTap() {
+    onCounterUpdate(item, -1);
   }
 
-  void ButtonsIncrement10Counter() {
-    on10Increment(item);
+  void onUpArrowLongPress() {
+    onCounterUpdate(item, 10);
   }
 
-  void ButtonsDecrement10Counter() {
-    on10Decrement(item);
+  void onDownArrowLongPress() {
+    onCounterUpdate(item, -10);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Row(mainAxisSize: MainAxisSize.min, children: [
-      TextButton(
-          child: Icon(Icons.arrow_upward),
-          onPressed: ButtonsIncrementHourCounter,
-          onLongPress: ButtonsIncrement10Counter),
-      TextButton(
-        child: Icon(Icons.arrow_downward),
-        onPressed: ButtonsDecrementHourCounter,
-        onLongPress: ButtonsDecrement10Counter,
-      )
-    ]));
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+        TextButton(
+          onPressed: onUpArrowTap,
+          onLongPress: onUpArrowLongPress,
+          child: const Icon(Icons.arrow_upward),
+        ),
+        TextButton(
+          onPressed: onDownArrowTap,
+          onLongPress: onDownArrowLongPress,
+          child: const Icon(Icons.arrow_downward),
+        ),
+    ]);
   }
 }
-
-// FIGURE OUT HOW TO MAKE onIncrementCounter NOT TAKE IN A PARAMETER (put in ToDoListItem???)
 
 class ToDoListItem extends StatelessWidget {
   ToDoListItem(
       {required this.item,
-      required this.completed,
-      required this.onListChanged,
       required this.onDeleteItem,
-      required this.onIncrementCounter,
-      required this.onDecrementCounter,
-      required this.on10Increment,
-      required this.on10Decrement})
+      required this.onCounterUpdate})
       : super(key: ObjectKey(item));
 
   final Item item;
-  final bool completed;
-  final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
-  final ToDoListRemovedCallback onIncrementCounter;
-  final ToDoListRemovedCallback onDecrementCounter;
-  final ToDoListRemovedCallback on10Increment;
-  final ToDoListRemovedCallback on10Decrement;
-
-  Color _getColor(BuildContext context) {
-    // The theme depends on the BuildContext because different
-    // parts of the tree can have different themes.
-    // The BuildContext indicates where the build is
-    // taking place and therefore which theme to use.
-
-    return completed ? Colors.black54 : Theme.of(context).primaryColor;
-  }
-
-  TextStyle? _getTextStyle(BuildContext context) {
-    if (!completed) return null;
-
-    return const TextStyle(
-      color: Colors.black54,
-      decoration: TextDecoration.lineThrough,
-    );
-  }
+  final CounterUpdateCallback onCounterUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -134,23 +81,16 @@ class ToDoListItem extends StatelessWidget {
       },
       leading: CircleAvatar(
         // check off button
-        backgroundColor: _getColor(context),
+        backgroundColor: Theme.of(context).primaryColor,
         child: Text(item.abbrev(), style: const TextStyle(color: Colors.white)),
       ),
-      title: Text(
-        item.name,
-        style: _getTextStyle(context),
-      ),
+      title: Text(item.name),
       trailing: TrailingButtonsWidget(
         key: key,
         item: item,
-        onIncrementCounter: onIncrementCounter,
-        onDecrementCounter: onDecrementCounter,
-        on10Increment: on10Increment,
-        on10Decrement: on10Decrement,
+        onCounterUpdate: onCounterUpdate,
       ),
-      subtitle: Text("Hours: " + item.hourCounter.toString(),
-          style: _getTextStyle(context)),
+      subtitle: Text("Hours: ${item.hourCounter}"),
     );
   }
 }
