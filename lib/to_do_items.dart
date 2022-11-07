@@ -26,6 +26,23 @@ class ToDoListItem extends StatelessWidget {
   final ToDoListChangedCallback onListChanged;
   final ToDoListRemovedCallback onDeleteItem;
 
+  /* new dialog for edit button. What it needs to do:
+    - Take in workout with its info
+    - Autofill workout info in each text box
+    - Save the changes after it's done
+  */
+  Future<void> _displayEditWorkoutDialog(
+      BuildContext context, Workout workout) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text("Edit ${workout.name}"),
+              content: Column(
+                  mainAxisSize: MainAxisSize.min, children: [TextField()]));
+        });
+  }
+
   Color _getColor(BuildContext context) {
     // The theme depends on the BuildContext because different
     // parts of the tree can have different themes.
@@ -53,7 +70,7 @@ class ToDoListItem extends StatelessWidget {
         builder: (context) {
           return AlertDialog(
             title: const Text('Exercise Info'),
-            content: Column(children: [
+            content: Column(mainAxisSize: MainAxisSize.min, children: [
               Text("Exercise: ${workout.name}"),
               Text("Sets: ${workout.sets}"),
               Text("Reps: ${workout.reps}"),
@@ -74,21 +91,23 @@ class ToDoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        onListChanged(workout, completed);
-      },
-      onLongPress: () {
-        _displayWorkoutInfo(context);
-      },
-      leading: CircleAvatar(
-        backgroundColor: _getColor(context),
-        child: Text(workout.abbrev()),
-      ),
-      title: Text(
-        workout.name,
-        style: _getTextStyle(context),
-      ),
-    );
+        onTap: () {
+          onListChanged(workout, completed);
+        },
+        onLongPress: () {
+          _displayWorkoutInfo(context);
+        },
+        leading: CircleAvatar(
+          backgroundColor: _getColor(context),
+          child: Text(workout.abbrev()),
+        ),
+        title: Text(
+          workout.name,
+          style: _getTextStyle(context),
+        ),
+        trailing: ElevatedButton(
+            onPressed: () => _displayEditWorkoutDialog(context, workout),
+            child: const Text("Edit")));
   }
 }
 
