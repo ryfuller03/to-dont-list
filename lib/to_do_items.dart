@@ -93,8 +93,10 @@ class ToDoListItem extends StatelessWidget {
               },
               child: const Text("Edit")),
           TextButton(
-              child: Icon(Icons.one_x_mobiledata),
-              onPressed: onDeleteItem(workout))
+              onPressed: () {
+                onDeleteItem(workout);
+              },
+              child: const Icon(Icons.delete))
         ]));
   }
 }

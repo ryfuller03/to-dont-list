@@ -213,11 +213,8 @@ class _ToDoListState extends State<ToDoList> {
   }
 
   void _handleDeleteItem(Workout workout) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    setState(() {
       workouts.remove(workout);
-      _inputController.clear();
-      _setsController.clear();
-      _repsController.clear();
     });
   }
 
