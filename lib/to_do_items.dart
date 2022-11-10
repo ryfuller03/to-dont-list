@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 typedef ToDoListChangedCallback = Function(Workout workout, bool completed);
-typedef ToDoListRemovedCallback = Function(Workout item);
+typedef ToDoListRemovedCallback = Function(Workout workout);
 
 class ToDoListItem extends StatelessWidget {
   ToDoListItem(
@@ -86,11 +86,16 @@ class ToDoListItem extends StatelessWidget {
           workout.name,
           style: _getTextStyle(context),
         ),
-        trailing: ElevatedButton(
-            onPressed: () {
-              displayEditDialog(workout);
-            },
-            child: const Text("Edit")));
+        trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+          ElevatedButton(
+              onPressed: () {
+                displayEditDialog(workout);
+              },
+              child: const Text("Edit")),
+          TextButton(
+              child: Icon(Icons.one_x_mobiledata),
+              onPressed: onDeleteItem(workout))
+        ]));
   }
 }
 

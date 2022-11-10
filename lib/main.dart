@@ -101,8 +101,18 @@ class _ToDoListState extends State<ToDoList> {
   }
 
   Future<void> _displayEditWorkoutDialog(Workout workout) async {
-    int newReps = int.parse(workout.reps);
-    int newSets = int.parse(workout.sets);
+    int newReps = 0;
+    int newSets = 0;
+    if (int.tryParse(workout.reps) == null) {
+      newReps = 0;
+    } else {
+      newReps = int.parse(workout.reps);
+    }
+    if (int.tryParse(workout.sets) == null) {
+      newSets = 0;
+    } else {
+      newSets = int.parse(workout.sets);
+    }
     String newName = workout.name;
     final ButtonStyle yesStyle = ElevatedButton.styleFrom(
         textStyle: const TextStyle(fontSize: 20),
@@ -203,7 +213,12 @@ class _ToDoListState extends State<ToDoList> {
   }
 
   void _handleDeleteItem(Workout workout) {
-    workouts.remove(workout);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      workouts.remove(workout);
+      _inputController.clear();
+      _setsController.clear();
+      _repsController.clear();
+    });
   }
 
   void _handleNewItem(String itemText, String set, String rep) {
