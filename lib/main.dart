@@ -100,6 +100,75 @@ class _ToDoListState extends State<ToDoList> {
         });
   }
 
+  Future<void> _displayEditWorkoutDialog(Workout workout) async {
+    int newReps = int.parse(workout.reps);
+    int newSets = int.parse(workout.sets);
+    String newName = workout.name;
+    final ButtonStyle yesStyle = ElevatedButton.styleFrom(
+        textStyle: const TextStyle(fontSize: 20),
+        backgroundColor: Colors.green);
+    final ButtonStyle noStyle = ElevatedButton.styleFrom(
+        textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text("Edit ${workout.name}"),
+              content: Column(mainAxisSize: MainAxisSize.min, children: [
+                const Text("Edit Name:"),
+                TextField(
+                    onChanged: (value) {
+                      newName = value;
+                    },
+                    controller: TextEditingController(text: workout.name),
+                    decoration: const InputDecoration(hintText: "Name")),
+                const Padding(padding: EdgeInsets.only(top: 20)),
+                const Text("Edit Sets:"),
+                TextField(
+                    onChanged: (value2) {
+                      if (int.tryParse(value2) != null) {
+                        newSets = int.parse(value2);
+                      } else {}
+                      ;
+                    },
+                    controller: TextEditingController(text: workout.sets),
+                    decoration: const InputDecoration(hintText: "Sets")),
+                const Padding(padding: EdgeInsets.only(top: 20)),
+                const Text("Edit Reps:"),
+                TextField(
+                    onChanged: (value3) {
+                      if (int.tryParse(value3) != null) {
+                        newReps = int.parse(value3);
+                      }
+                    },
+                    controller: TextEditingController(text: workout.reps),
+                    decoration: const InputDecoration(hintText: "Reps")),
+              ]),
+              actions: <Widget>[
+                ElevatedButton(
+                    key: const Key("Edit OK Button"),
+                    style: yesStyle,
+                    child: const Text("OK"),
+                    onPressed: () {
+                      setState(() {
+                        _handleEditItem(newName, newSets, newReps, workout);
+                        Navigator.pop(context);
+                      });
+                    }),
+                ElevatedButton(
+                    key: const Key("Edit Cancel Button"),
+                    style: noStyle,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
+                    child: const Text("Cancel"))
+              ]);
+        });
+  }
+
   String valueText = "";
 
   String sets = "";
@@ -149,11 +218,11 @@ class _ToDoListState extends State<ToDoList> {
   }
 
   void _handleEditItem(
-      String newName, String newSets, String newReps, Workout workout) {
+      String newName, int newSets, int newReps, Workout workout) {
     setState(() {
       workout.name = newName;
-      workout.sets = newSets;
-      workout.reps = newReps;
+      workout.sets = newSets.toString();
+      workout.reps = newReps.toString();
       // clear all controllers for text fields
     });
   }
@@ -173,7 +242,7 @@ class _ToDoListState extends State<ToDoList> {
                 completed: _workoutSet.contains(workout),
                 onListChanged: _handleListChanged,
                 onDeleteItem: _handleDeleteItem,
-                onEditItem: _handleEditItem);
+                displayEditDialog: _displayEditWorkoutDialog);
           }).toList(),
         ),
         floatingActionButton: FloatingActionButton(
