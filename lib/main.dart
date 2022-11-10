@@ -30,7 +30,7 @@ class _ToDoListState extends State<ToDoList> {
           return AlertDialog(
             title: const Text('Add exercise'),
             content: Column(children: <Widget>[
-              Text("Exercise"),
+              const Text("Exercise"),
               TextField(
                 key: Key('exKey'),
                 onChanged: (value) {
@@ -41,9 +41,9 @@ class _ToDoListState extends State<ToDoList> {
                 controller: _inputController,
                 decoration: const InputDecoration(hintText: "type"),
               ),
-              Text("Sets"),
+              const Text("Sets"),
               TextField(
-                key: Key('setsKey'),
+                key: const Key('setsKey'),
                 onChanged: (value2) {
                   setState(() {
                     sets = value2;
@@ -52,7 +52,7 @@ class _ToDoListState extends State<ToDoList> {
                 controller: _setsController,
                 decoration: const InputDecoration(hintText: "type"),
               ),
-              Text("Reps"),
+              const Text("Reps"),
               TextField(
                 key: Key('repsKey'),
                 onChanged: (value3) {
@@ -107,7 +107,7 @@ class _ToDoListState extends State<ToDoList> {
   String reps = "";
 
   final List<Workout> workouts = [
-    const Workout(name: "Example", reps: "5", sets: "3")
+    Workout(name: "Example", reps: "5", sets: "3")
   ];
 
   final _workoutSet = <Workout>{};
@@ -133,10 +133,8 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleDeleteItem(Item item) {
-    setState(() {
-      print("Deleting item");
-    });
+  void _handleDeleteItem(Workout workout) {
+    workouts.remove(workout);
   }
 
   void _handleNewItem(String itemText, String set, String rep) {
@@ -147,6 +145,16 @@ class _ToDoListState extends State<ToDoList> {
       _inputController.clear();
       _setsController.clear();
       _repsController.clear();
+    });
+  }
+
+  void _handleEditItem(
+      String newName, String newSets, String newReps, Workout workout) {
+    setState(() {
+      workout.name = newName;
+      workout.sets = newSets;
+      workout.reps = newReps;
+      // clear all controllers for text fields
     });
   }
 
@@ -161,11 +169,11 @@ class _ToDoListState extends State<ToDoList> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: workouts.map((workout) {
             return ToDoListItem(
-              workout: workout,
-              completed: _workoutSet.contains(workout),
-              onListChanged: _handleListChanged,
-              onDeleteItem: _handleDeleteItem,
-            );
+                workout: workout,
+                completed: _workoutSet.contains(workout),
+                onListChanged: _handleListChanged,
+                onDeleteItem: _handleDeleteItem,
+                onEditItem: _handleEditItem);
           }).toList(),
         ),
         floatingActionButton: FloatingActionButton(
