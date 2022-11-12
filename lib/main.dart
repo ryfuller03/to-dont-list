@@ -129,6 +129,7 @@ class _ToDoListState extends State<ToDoList> {
               content: Column(mainAxisSize: MainAxisSize.min, children: [
                 const Text("Edit Name:"),
                 TextField(
+                    key: const Key("Edit Name Field"),
                     onChanged: (value) {
                       newName = value;
                     },

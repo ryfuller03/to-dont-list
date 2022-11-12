@@ -107,7 +107,7 @@ void main() {
 
   testWidgets("Editing Dialog displays and disappears correctly.",
       (tester) async {
-    // Load the app.
+    // Build the app.
     await tester.pumpWidget(const MaterialApp(home: ToDoList()));
 
     // Find the button to prompt Edit Dialog.
@@ -124,7 +124,7 @@ void main() {
   });
 
   testWidgets("Deleting items works.", (tester) async {
-    // Load the app.
+    // Build the app.
     await tester.pumpWidget(const MaterialApp(home: ToDoList()));
 
     // There should be 1 delete button for the Example exercise automatically
@@ -138,5 +138,28 @@ void main() {
     // Because there are no items in the list, a delete button will not be
     // found.
     expect(find.byKey(const Key("Delete Button")), findsNothing);
+  });
+
+  testWidgets("Able to edit items successfully.", (tester) async {
+    // Build the app.
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    // Tap the edit button, trigger a frame and settle.
+    await tester.tap(find.byKey(const Key("Edit Button")));
+    await tester.pumpAndSettle();
+
+    // Tap the edit name field, edit the text field, trigger a frame and settle.
+    await tester.tap(find.byKey(const Key("Edit Name Field")));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+        find.byKey(const Key("Edit Name Field")), "Workout 2");
+    await tester.pumpAndSettle();
+
+    // Tap the OK Button, trigger a frame and settle.
+    await tester.tap(find.byKey(const Key("Edit OK Button")));
+    await tester.pumpAndSettle();
+
+    // Assert the name of the item was changed.
+    expect(find.text("Workout 2"), findsOneWidget);
   });
 }
