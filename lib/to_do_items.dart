@@ -91,12 +91,15 @@ class ToDoListItem extends StatelessWidget {
               onPressed: () {
                 displayEditDialog(workout);
               },
+              key: const Key("Edit Button"),
               child: const Text("Edit")),
           TextButton(
               onPressed: () {
                 onDeleteItem(workout);
               },
-              child: const Icon(Icons.delete))
+              child: const Text("X",
+                  key: Key("Delete Button"),
+                  style: TextStyle(fontSize: 20, color: Colors.blueGrey)))
         ]));
   }
 }

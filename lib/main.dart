@@ -101,7 +101,7 @@ class _ToDoListState extends State<ToDoList> {
   }
 
   Future<void> _displayEditWorkoutDialog(Workout workout) async {
-    int newReps = 0;
+    int newReps = 0; // set to 0 initially for int.tryParse to catch errors
     int newSets = 0;
     if (int.tryParse(workout.reps) == null) {
       newReps = 0;
@@ -113,7 +113,8 @@ class _ToDoListState extends State<ToDoList> {
     } else {
       newSets = int.parse(workout.sets);
     }
-    String newName = workout.name;
+    String newName =
+        workout.name; // set to workout.name initially to avoid errors
     final ButtonStyle yesStyle = ElevatedButton.styleFrom(
         textStyle: const TextStyle(fontSize: 20),
         backgroundColor: Colors.green);
