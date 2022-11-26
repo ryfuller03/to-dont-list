@@ -1,7 +1,7 @@
+import 'dart:ffi';
 import 'dart:math';
 
 class PredictTaskWarn {
-  // Predict Array
   final predict = [
     "You have a secret admirer, find them.",
     "Flattery wil go far tonight, try it.",
@@ -13,6 +13,15 @@ class PredictTaskWarn {
     "You will enjoy a cookie later.",
     "The night will be long for you.",
     "You are going to ace your next test.",
+  ];
+
+  // Prediction Strength Array
+  final strength = [
+    "Incredibly Strong",
+    "Strong",
+    "Neutral",
+    "Weak",
+    "Incredibly Weak"
   ];
   // Task Array
   final task = [

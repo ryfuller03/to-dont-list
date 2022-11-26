@@ -152,7 +152,6 @@ class _ToDoListState extends State<ToDoList> {
   void _onItemTapped(int index) {
     setState(() {
       Random rand = Random();
-      _selectedIndex = index;
       String name = ptw.ptw(index, rand);
       Item item = Item(name: name, index: "$index");
       items.insert(0, item);
