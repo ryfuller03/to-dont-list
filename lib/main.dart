@@ -8,9 +8,9 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 
 List<Item> items = [const Item(name: "add more todos", index: "-1")];
 
-  TextStyle _newTextStyle(){
-    return const TextStyle(fontFamily: "Times New Roman", fontSize: 20);
-  }
+TextStyle _newTextStyle() {
+  return const TextStyle(fontFamily: "PT Serif", fontSize: 20);
+}
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -27,8 +27,7 @@ class _ToDoListState extends State<ToDoList> {
   //Got rid of the initialized Button Styles to make more concise theme
   int _selectedIndex = 0;
   PredictTaskWarn ptw = PredictTaskWarn();
-  Color eightball = Color.fromARGB(255,62,118,253);
-
+  Color eightball = Color.fromARGB(255, 62, 118, 253);
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     print("Loading Dialog");
@@ -46,7 +45,7 @@ class _ToDoListState extends State<ToDoList> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(style: _newTextStyle(),'Item To Add'),
+            title: Text(style: _newTextStyle(), 'Item To Add'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -60,7 +59,8 @@ class _ToDoListState extends State<ToDoList> {
             actions: <Widget>[
               ElevatedButton(
                 key: const Key("OKButton"),
-                style: ElevatedButton.styleFrom(textStyle: _newTextStyle(),backgroundColor: eightball),
+                style: ElevatedButton.styleFrom(
+                    textStyle: _newTextStyle(), backgroundColor: eightball),
                 child: const Text("Ok"),
                 onPressed: () {
                   if (valueText != "") {
@@ -79,7 +79,9 @@ class _ToDoListState extends State<ToDoList> {
                 builder: (context, value, child) {
                   return ElevatedButton(
                     key: const Key("CancelButton"),
-                    style: ElevatedButton.styleFrom(textStyle: _newTextStyle(), backgroundColor: Colors.red),
+                    style: ElevatedButton.styleFrom(
+                        textStyle: _newTextStyle(),
+                        backgroundColor: Colors.red),
                     onPressed: () {
                       setState(() {
                         Navigator.pop(context);
@@ -163,7 +165,7 @@ class _ToDoListState extends State<ToDoList> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: eightball,
-          title: Text(style: _newTextStyle(),'Items completed: $numCompleted'),
+          title: Text(style: _newTextStyle(), 'Items completed: $numCompleted'),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -208,12 +210,9 @@ class _ToDoListState extends State<ToDoList> {
 }
 
 void main() {
-  runApp( MaterialApp(
+  runApp(MaterialApp(
     title: 'To Do List',
-    theme: ThemeData(
-      textTheme: TextTheme(
-        titleMedium:_newTextStyle())
-    ),
+    theme: ThemeData(textTheme: TextTheme(titleMedium: _newTextStyle())),
     home: ToDoList(),
   ));
 }

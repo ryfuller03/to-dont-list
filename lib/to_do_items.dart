@@ -66,7 +66,7 @@ class ToDoListItem extends StatelessWidget {
       color: Colors.black54,
       //Changed it so that crossed out items turn into italics and changed the font for graphics reasons
       fontStyle: FontStyle.italic,
-      fontFamily: "Times New Roman",
+      fontFamily: "PT Serif",
       decoration: TextDecoration.lineThrough,
     );
   }

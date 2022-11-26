@@ -12,7 +12,7 @@ class PredictTaskWarn {
     "It is going to rain tonight.",
     "You will enjoy a cookie later.",
     "The night will be long for you.",
-    "You are going to ace your next text."
+    "You are going to ace your next test.",
   ];
   // Task Array
   final task = [
@@ -25,7 +25,7 @@ class PredictTaskWarn {
     "Drink some coffee.",
     "Go buy groceries.",
     "Go to Target.",
-    "Buy a bidet."
+    "Buy a bidet.",
   ];
   // Warning Array
   // Some warnings were vague enough to seem like predictions,
@@ -38,7 +38,7 @@ class PredictTaskWarn {
     "Glory will be yours, but avoid the pitfalls on the way.",
     "Stop eating now. Food poisoning no fun.",
     "You think it’s a secret, but they know.",
-    "AN ALIEN IS COMING FOR YOU. THIS IS NOT A PREDICTION."
+    "AN ALIEN IS COMING FOR YOU. THIS IS NOT A PREDICTION.",
   ];
 
   //ptw now works by giving it the index, and then picking a random index from the list of the first index
