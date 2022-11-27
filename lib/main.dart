@@ -6,7 +6,9 @@ import 'dart:math';
 import 'package:boxicons/boxicons.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 
-List<Item> items = [const Item(name: "add more todos", index: "-1")];
+List<Item> items = [
+  const Item(name: "add more todos", index: "-1", strength: "")
+];
 
 TextStyle _newTextStyle() {
   return const TextStyle(fontFamily: "PT Serif", fontSize: 20);
@@ -29,17 +31,9 @@ class _ToDoListState extends State<ToDoList> {
   PredictTaskWarn ptw = PredictTaskWarn();
   Color eightball = Color.fromARGB(255, 62, 118, 253);
 
-  Future<void> _displayTextInputDialog(BuildContext context) async {
+  Future<void> _displayTextInputDialog(BuildContext context, Item item) async {
     print("Loading Dialog");
     final random = Random();
-    var magic8 = [
-      " - Yes, Definitely",
-      " - Without a Doubt",
-      " - Signs Point to Yes",
-      " - Maybe",
-      " - Outlook not so good",
-      " - Very Doubtful"
-    ];
 
     return showDialog(
         context: context,
@@ -65,7 +59,7 @@ class _ToDoListState extends State<ToDoList> {
                 onPressed: () {
                   if (valueText != "") {
                     setState(() {
-                      _handleNewItem(valueText + magic8[random.nextInt(6)]);
+                      _handleNewItem(valueText, item.strength);
                       Navigator.pop(context);
                       valueText = "";
                     });
@@ -132,10 +126,10 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleNewItem(String itemText) {
+  void _handleNewItem(String itemText, String strength) {
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText, index: "-1");
+      Item item = Item(name: itemText, index: "-1", strength: strength);
       items.insert(0, item);
       _inputController.clear();
     });
@@ -152,8 +146,15 @@ class _ToDoListState extends State<ToDoList> {
   void _onItemTapped(int index) {
     setState(() {
       Random rand = Random();
-      String name = ptw.ptw(index, rand);
-      Item item = Item(name: name, index: "$index");
+      List itemInfo = ptw.ptw(index, rand);
+      String name = itemInfo[0];
+      Item item = Item(name: name, index: "$index", strength: "");
+      if (index == 0) {
+        String strength = itemInfo[1];
+        Item item = Item(name: name, index: "$index", strength: strength);
+      } else {
+        Item item = Item(name: name, index: "$index", strength: "");
+      }
       items.insert(0, item);
       print(index);
     });

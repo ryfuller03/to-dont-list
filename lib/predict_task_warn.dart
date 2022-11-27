@@ -51,13 +51,16 @@ class PredictTaskWarn {
   ];
 
   //ptw now works by giving it the index, and then picking a random index from the list of the first index
-  String ptw(int s, Random rand) {
+  List ptw(int s, Random rand) {
     if (s == 0) {
-      return predict[rand.nextInt(predict.length)];
+      return [
+        predict[rand.nextInt(predict.length)],
+        strength[rand.nextInt(strength.length)]
+      ];
     } else if (s == 1) {
-      return task[rand.nextInt(task.length)];
+      return [task[rand.nextInt(task.length)]];
     } else {
-      return warn[rand.nextInt(warn.length)];
+      return [warn[rand.nextInt(warn.length)]];
     }
   }
 }
