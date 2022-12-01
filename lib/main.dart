@@ -1,4 +1,5 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:to_dont_list/to_do_items.dart';
@@ -136,8 +137,9 @@ class _ToDoListState extends State<ToDoList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // use image as appbar: https://stackoverflow.com/questions/49983931/how-to-replace-title-with-image-in-appbar
         appBar: AppBar(
-          title: const Text('Video Game Hour Tracker'),
+          title: Image.asset('assets/vghc_banner.png', fit: BoxFit.fill),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -159,7 +161,14 @@ class _ToDoListState extends State<ToDoList> {
   }
 }
 
+//for theming: https://docs.flutter.dev/cookbook/design/themes
+//             https://docs.flutter.dev/cookbook/design/fonts
 void main() {
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('google_fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
+
   runApp(MaterialApp(
       title: 'Video Game Hour Tracker',
       theme: ThemeData(
@@ -167,5 +176,3 @@ void main() {
           primaryColor: const Color.fromARGB(255, 114, 20, 34)),
       home: const ToDoList()));
 }
-
-//test comment

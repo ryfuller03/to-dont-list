@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Item {
   final String name;
@@ -87,15 +88,22 @@ class ToDoListItem extends StatelessWidget {
       leading: CircleAvatar(
         // check off button
         backgroundColor: Theme.of(context).primaryColor,
-        child: Text(item.abbrev(), style: const TextStyle(color: Colors.white)),
+        child: Text(item.abbrev(),
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: GoogleFonts.pressStart2p().fontFamily)),
       ),
-      title: Text(item.name),
+      title: Text(item.name,
+          style: TextStyle(
+              fontFamily: GoogleFonts.vt323().fontFamily, fontSize: 22)),
       trailing: TrailingButtonsWidget(
         key: key,
         item: item,
         onCounterUpdate: onCounterUpdate,
       ),
-      subtitle: Text("Hours: ${item.hourCounter}"),
+      subtitle: Text("Hours: ${item.hourCounter}",
+          style: TextStyle(
+              fontFamily: GoogleFonts.vt323().fontFamily, fontSize: 18)),
     );
   }
 }
