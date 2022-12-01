@@ -150,6 +150,8 @@ class _ToDoListState extends State<ToDoList> {
           }).toList(),
         ),
         floatingActionButton: FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
             child: const Icon(Icons.add),
             onPressed: () {
               _displayTextInputDialog(context);
@@ -158,10 +160,12 @@ class _ToDoListState extends State<ToDoList> {
 }
 
 void main() {
-  runApp(const MaterialApp(
-    title: 'Video Game Hour Tracker',
-    home: ToDoList(),
-  ));
+  runApp(MaterialApp(
+      title: 'Video Game Hour Tracker',
+      theme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: const Color.fromARGB(255, 114, 20, 34)),
+      home: const ToDoList()));
 }
 
 //test comment

@@ -11,7 +11,9 @@ class Item {
   }
 
   String updateHourCounter(int amount) {
-    if (hourCounter + amount < 0) { amount = -hourCounter; }
+    if (hourCounter + amount < 0) {
+      amount = -hourCounter;
+    }
     return (hourCounter += amount).toString();
   }
 }
@@ -21,10 +23,11 @@ typedef ToDoListRemovedCallback = Function(Item item);
 typedef CounterUpdateCallback = Function(Item item, int amount);
 
 class TrailingButtonsWidget extends StatelessWidget {
-  const TrailingButtonsWidget(
-      {super.key,
-      required this.item,
-      required this.onCounterUpdate,});
+  const TrailingButtonsWidget({
+    super.key,
+    required this.item,
+    required this.onCounterUpdate,
+  });
 
   final Item item;
   final CounterUpdateCallback onCounterUpdate;
@@ -48,16 +51,18 @@ class TrailingButtonsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisSize: MainAxisSize.min, children: [
-        TextButton(
-          onPressed: onUpArrowTap,
-          onLongPress: onUpArrowLongPress,
-          child: const Icon(Icons.arrow_upward),
-        ),
-        TextButton(
-          onPressed: onDownArrowTap,
-          onLongPress: onDownArrowLongPress,
-          child: const Icon(Icons.arrow_downward),
-        ),
+      TextButton(
+        onPressed: onUpArrowTap,
+        onLongPress: onUpArrowLongPress,
+        child: const Icon(Icons.arrow_upward,
+            color: Color.fromARGB(255, 166, 30, 50)),
+      ),
+      TextButton(
+        onPressed: onDownArrowTap,
+        onLongPress: onDownArrowLongPress,
+        child: const Icon(Icons.arrow_downward,
+            color: Color.fromARGB(255, 166, 30, 50)),
+      ),
     ]);
   }
 }
