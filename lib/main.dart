@@ -15,13 +15,11 @@ class _ToDoListState extends State<ToDoList> {
   final TextEditingController _nameInputController = TextEditingController();
   final TextEditingController _numberInputController = TextEditingController();
   final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), 
-      backgroundColor: Colors.green);
+      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
   final ButtonStyle noStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
-
     String newGameName = "";
     int startingHourCount = 0;
 
@@ -47,22 +45,19 @@ class _ToDoListState extends State<ToDoList> {
                   key: const Key('HourField'),
                   onChanged: (value) {
                     setState(() {
-                      startingHourCount = 
+                      startingHourCount =
                           int.tryParse(value) ?? startingHourCount;
                     });
                   },
                   controller: _numberInputController,
-                  decoration: const InputDecoration(
-                      hintText: "Initial hour count"),
+                  decoration:
+                      const InputDecoration(hintText: "Initial hour count"),
                   keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ],
             ),
             actions: <Widget>[
-
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
                 valueListenable: _nameInputController,
@@ -71,13 +66,13 @@ class _ToDoListState extends State<ToDoList> {
                     key: const Key("OKButton"),
                     style: yesStyle,
                     onPressed: value.text.isNotEmpty
-                      ? () {
-                          setState(() {
-                            _handleNewItem(newGameName, startingHourCount);
-                            Navigator.pop(context);
-                          });
-                        }
-                      : null,
+                        ? () {
+                            setState(() {
+                              _handleNewItem(newGameName, startingHourCount);
+                              Navigator.pop(context);
+                            });
+                          }
+                        : null,
                     child: const Text('OK'),
                   );
                 },
@@ -100,7 +95,7 @@ class _ToDoListState extends State<ToDoList> {
   final List<Item> items = [Item("Add some games and track your hours!", 0)];
 
   /// Sorts items in an order compatible with a ListView.
-  void sortItemList() {    
+  void sortItemList() {
     /// Sorts Items descending by hour count, then ascending by name.
     int compareItemsForListView(Item a, Item b) {
       int compareHours = b.hourCounter.compareTo(a.hourCounter);
@@ -110,6 +105,7 @@ class _ToDoListState extends State<ToDoList> {
         return a.name.compareTo(b.name);
       }
     }
+
     // thanks to stackoverflow.com/questions/53547997 and Dart docs
     items.sort(compareItemsForListView);
   }
@@ -167,3 +163,5 @@ void main() {
     home: ToDoList(),
   ));
 }
+
+//test comment
