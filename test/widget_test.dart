@@ -120,4 +120,16 @@ void main() {
 
     expect(result.runtimeType, String);
   });
+
+  testWidgets("Subtitle for item shows up correctly.", (tester) async {
+    // Build the app.
+    await tester.pumpWidget(const MaterialApp(home: ToDoList()));
+
+    // The default list's prediction strength will always be "Strong", so
+    // the text finder searches for that text.
+    final subtitleFinder = find.text("Strong");
+
+    // Finds the text and asserts that it is visible on-screen.
+    expect(subtitleFinder, findsOneWidget);
+  });
 }
