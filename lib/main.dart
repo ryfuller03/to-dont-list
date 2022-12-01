@@ -6,7 +6,9 @@ import 'dart:math';
 import 'package:boxicons/boxicons.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 
-List<Item> items = [Item(name: "add more todos", index: "-1", strength: "")];
+List<Item> items = [
+  Item(name: "add more todos", index: "-1", strength: "Strong")
+];
 
 TextStyle _newTextStyle() {
   return const TextStyle(fontFamily: "PT Serif", fontSize: 20);
