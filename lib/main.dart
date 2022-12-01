@@ -6,9 +6,7 @@ import 'dart:math';
 import 'package:boxicons/boxicons.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 
-List<Item> items = [
-  const Item(name: "add more todos", index: "-1", strength: "")
-];
+List<Item> items = [Item(name: "add more todos", index: "-1", strength: "")];
 
 TextStyle _newTextStyle() {
   return const TextStyle(fontFamily: "PT Serif", fontSize: 20);
@@ -151,9 +149,7 @@ class _ToDoListState extends State<ToDoList> {
       Item item = Item(name: name, index: "$index", strength: "");
       if (index == 0) {
         String strength = itemInfo[1];
-        Item item = Item(name: name, index: "$index", strength: strength);
-      } else {
-        Item item = Item(name: name, index: "$index", strength: "");
+        item.strength = strength;
       }
       items.insert(0, item);
       print(index);
@@ -181,7 +177,7 @@ class _ToDoListState extends State<ToDoList> {
         floatingActionButton: FloatingActionButton(
             backgroundColor: eightball,
             onPressed: () {
-              _displayTextInputDialog(context);
+              _displayTextInputDialog(context, items[0]);
             },
             child: const Icon(Icons.add)),
         //This where all of the predict things happen
@@ -213,7 +209,7 @@ void main() {
   runApp(MaterialApp(
     title: 'To Do List',
     theme: ThemeData(textTheme: TextTheme(titleMedium: _newTextStyle())),
-    home: ToDoList(),
+    home: const ToDoList(),
   ));
 }
 
