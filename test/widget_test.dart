@@ -75,7 +75,7 @@ void main() {
     await tester.pump(); // Pump after every action to rebuild the widgets
     expect(find.text("hi"), findsNothing);
 
-    await tester.enterText(find.byType(TextField), 'hi');
+    await tester.enterText(find.byKey(const Key('TitleField')), 'hi');
     await tester.pump();
     expect(find.text("hi"), findsOneWidget);
 

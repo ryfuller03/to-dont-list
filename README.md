@@ -1,6 +1,7 @@
 # To Do or Not To Do
 
-A Flutter Demo project.
+## What does it do?
+The Video Game Hour Tracker allows you to input your own video games into the app and track how many hours you've played in it.
 
 ## Description
 

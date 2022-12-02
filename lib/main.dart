@@ -1,5 +1,7 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:to_dont_list/to_do_items.dart';
 import 'package:to_dont_list/predict_task_warn.dart';
 import 'dart:math';
@@ -68,7 +70,7 @@ class _ToDoListState extends State<ToDoList> {
 
               // https://stackoverflow.com/questions/52468987/how-to-turn-disabled-button-into-enabled-button-depending-on-conditions
               ValueListenableBuilder<TextEditingValue>(
-                valueListenable: _inputController,
+                valueListenable: _nameInputController,
                 builder: (context, value, child) {
                   return ElevatedButton(
                     key: const Key("CancelButton"),
@@ -84,12 +86,24 @@ class _ToDoListState extends State<ToDoList> {
                   );
                 },
               ),
+              ElevatedButton(
+                key: const Key("CancelButton"),
+                style: noStyle,
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                    _nameInputController.clear();
+                    _numberInputController.clear();
+                  });
+                },
+                child: const Text('Cancel'),
+              ),
             ],
           );
         });
   }
 
-  String valueText = "";
+  final List<Item> items = [Item("Add some games and track your hours!", 0)];
 
   final _itemSet = <Item>{};
 
@@ -115,12 +129,14 @@ class _ToDoListState extends State<ToDoList> {
         items.insert(0, item);
         numCompleted--;
       }
-    });
+    }
+
+    // thanks to stackoverflow.com/questions/53547997 and Dart docs
+    items.sort(compareItemsForListView);
   }
 
   void _handleDeleteItem(Item item) {
     setState(() {
-      print("Deleting item");
       items.remove(item);
     });
   }
@@ -136,7 +152,9 @@ class _ToDoListState extends State<ToDoList> {
           strength: ptw.strengthList[rand.nextInt(4)]);
       print(item.index);
       items.insert(0, item);
-      _inputController.clear();
+      _nameInputController.clear();
+      _numberInputController.clear();
+      sortItemList();
     });
   }
 
@@ -168,6 +186,7 @@ class _ToDoListState extends State<ToDoList> {
   Widget build(BuildContext context) {
     Random rand = Random();
     return Scaffold(
+        // use image as appbar: https://stackoverflow.com/questions/49983931/how-to-replace-title-with-image-in-appbar
         appBar: AppBar(
           backgroundColor: eightball,
           title: Text(style: _newTextStyle(), 'Items completed: $numCompleted'),
@@ -177,9 +196,8 @@ class _ToDoListState extends State<ToDoList> {
           children: items.map((item) {
             return ToDoListItem(
               item: item,
-              completed: _itemSet.contains(item),
-              onListChanged: _handleListChanged,
               onDeleteItem: _handleDeleteItem,
+              onCounterUpdate: _handleUpdateCounter,
             );
           }).toList(),
         ),
@@ -214,6 +232,8 @@ class _ToDoListState extends State<ToDoList> {
   }
 }
 
+//for theming: https://docs.flutter.dev/cookbook/design/themes
+//             https://docs.flutter.dev/cookbook/design/fonts
 void main() {
   runApp(MaterialApp(
     title: 'To Do List',
