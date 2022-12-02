@@ -3,10 +3,11 @@ import 'package:boxicons/boxicons.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 
 class Item {
-  const Item({required this.name, required this.index});
+  Item({required this.name, required this.index, required this.strength});
 
   final String name;
   final String index;
+  String strength;
 
   String abbrev() {
     return "8";
@@ -66,7 +67,7 @@ class ToDoListItem extends StatelessWidget {
       color: Colors.black54,
       //Changed it so that crossed out items turn into italics and changed the font for graphics reasons
       fontStyle: FontStyle.italic,
-      fontFamily: "Times New Roman",
+      fontFamily: "PT Serif",
       decoration: TextDecoration.lineThrough,
     );
   }
@@ -74,22 +75,22 @@ class ToDoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        onListChanged(item, completed);
-      },
-      onLongPress: completed
-          ? () {
-              onDeleteItem(item);
-            }
-          : null,
-      leading: CircleAvatar(
-        backgroundColor: _getColor(),
-        child: _getIcon(),
-      ),
-      title: Text(
-        item.name,
-        style: _getTextStyle(context),
-      ),
-    );
+        onTap: () {
+          onListChanged(item, completed);
+        },
+        onLongPress: completed
+            ? () {
+                onDeleteItem(item);
+              }
+            : null,
+        leading: CircleAvatar(
+          backgroundColor: _getColor(),
+          child: _getIcon(),
+        ),
+        title: Text(
+          item.name,
+          style: _getTextStyle(context),
+        ),
+        subtitle: Text(item.strength));
   }
 }

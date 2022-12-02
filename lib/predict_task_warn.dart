@@ -1,7 +1,6 @@
 import 'dart:math';
 
 class PredictTaskWarn {
-  // Predict Array
   final predict = [
     "You have a secret admirer, find them.",
     "Flattery wil go far tonight, try it.",
@@ -12,7 +11,18 @@ class PredictTaskWarn {
     "It is going to rain tonight.",
     "You will enjoy a cookie later.",
     "The night will be long for you.",
-    "You are going to ace your next text."
+    "You are going to ace your next test.",
+    "You will receive a great new message in your mail soon.",
+    "Your sleep tonight will be most exemplary."
+  ];
+
+  // Prediction Strength Array
+  final strength = [
+    "Incredibly Strong",
+    "Strong",
+    "Neutral",
+    "Weak",
+    "Incredibly Weak"
   ];
   // Task Array
   final task = [
@@ -25,7 +35,9 @@ class PredictTaskWarn {
     "Drink some coffee.",
     "Go buy groceries.",
     "Go to Target.",
-    "Buy a bidet."
+    "Buy a bidet.",
+    "Eat some vegetables for once.",
+    "Beat the Ender Dragon."
   ];
   // Warning Array
   // Some warnings were vague enough to seem like predictions,
@@ -38,17 +50,28 @@ class PredictTaskWarn {
     "Glory will be yours, but avoid the pitfalls on the way.",
     "Stop eating now. Food poisoning no fun.",
     "You think it’s a secret, but they know.",
-    "AN ALIEN IS COMING FOR YOU. THIS IS NOT A PREDICTION."
+    "AN ALIEN IS COMING FOR YOU. THIS IS NOT A PREDICTION.",
+    "RUN. JUST RUN. FAR AWAY. DO NOT LOOK BEHIND YOU.",
+    "YOUR MOM KNOWS WHAT WAS UNDER YOUR BED!"
   ];
 
   //ptw now works by giving it the index, and then picking a random index from the list of the first index
-  String ptw(int s, Random rand) {
+  List ptw(int s, Random rand) {
     if (s == 0) {
-      return predict[rand.nextInt(predict.length)];
+      return [
+        predict[rand.nextInt(predict.length)],
+        strength[rand.nextInt(strength.length)]
+      ];
     } else if (s == 1) {
-      return task[rand.nextInt(task.length)];
+      return [
+        task[rand.nextInt(task.length)],
+        strength[rand.nextInt(strength.length)]
+      ];
     } else {
-      return warn[rand.nextInt(warn.length)];
+      return [
+        warn[rand.nextInt(warn.length)],
+        strength[rand.nextInt(strength.length)]
+      ];
     }
   }
 }

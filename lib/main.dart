@@ -6,11 +6,13 @@ import 'dart:math';
 import 'package:boxicons/boxicons.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 
-List<Item> items = [const Item(name: "add more todos", index: "-1")];
+List<Item> items = [
+  Item(name: "add more todos", index: "-1", strength: "Strong")
+];
 
-  TextStyle _newTextStyle(){
-    return const TextStyle(fontFamily: "Times New Roman", fontSize: 20);
-  }
+TextStyle _newTextStyle() {
+  return const TextStyle(fontFamily: "PT Serif", fontSize: 20);
+}
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -27,26 +29,17 @@ class _ToDoListState extends State<ToDoList> {
   //Got rid of the initialized Button Styles to make more concise theme
   int _selectedIndex = 0;
   PredictTaskWarn ptw = PredictTaskWarn();
-  Color eightball = Color.fromARGB(255,62,118,253);
+  Color eightball = Color.fromARGB(255, 62, 118, 253);
 
-
-  Future<void> _displayTextInputDialog(BuildContext context) async {
+  Future<void> _displayTextInputDialog(BuildContext context, Item item) async {
     print("Loading Dialog");
     final random = Random();
-    var magic8 = [
-      " - Yes, Definitely",
-      " - Without a Doubt",
-      " - Signs Point to Yes",
-      " - Maybe",
-      " - Outlook not so good",
-      " - Very Doubtful"
-    ];
 
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(style: _newTextStyle(),'Item To Add'),
+            title: Text(style: _newTextStyle(), 'Item To Add'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -60,12 +53,13 @@ class _ToDoListState extends State<ToDoList> {
             actions: <Widget>[
               ElevatedButton(
                 key: const Key("OKButton"),
-                style: ElevatedButton.styleFrom(textStyle: _newTextStyle(),backgroundColor: eightball),
+                style: ElevatedButton.styleFrom(
+                    textStyle: _newTextStyle(), backgroundColor: eightball),
                 child: const Text("Ok"),
                 onPressed: () {
                   if (valueText != "") {
                     setState(() {
-                      _handleNewItem(valueText + magic8[random.nextInt(6)]);
+                      _handleNewItem(valueText, item.strength);
                       Navigator.pop(context);
                       valueText = "";
                     });
@@ -79,7 +73,9 @@ class _ToDoListState extends State<ToDoList> {
                 builder: (context, value, child) {
                   return ElevatedButton(
                     key: const Key("CancelButton"),
-                    style: ElevatedButton.styleFrom(textStyle: _newTextStyle(), backgroundColor: Colors.red),
+                    style: ElevatedButton.styleFrom(
+                        textStyle: _newTextStyle(),
+                        backgroundColor: Colors.red),
                     onPressed: () {
                       setState(() {
                         Navigator.pop(context);
@@ -130,10 +126,10 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleNewItem(String itemText) {
+  void _handleNewItem(String itemText, String strength) {
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText, index: "-1");
+      Item item = Item(name: itemText, index: "-1", strength: strength);
       items.insert(0, item);
       _inputController.clear();
     });
@@ -150,9 +146,13 @@ class _ToDoListState extends State<ToDoList> {
   void _onItemTapped(int index) {
     setState(() {
       Random rand = Random();
-      _selectedIndex = index;
-      String name = ptw.ptw(index, rand);
-      Item item = Item(name: name, index: "$index");
+      List itemInfo = ptw.ptw(index, rand);
+      String name = itemInfo[0];
+      Item item = Item(name: name, index: "$index", strength: "");
+      if (index == 0) {
+        String strength = itemInfo[1];
+        item.strength = strength;
+      }
       items.insert(0, item);
       print(index);
     });
@@ -163,7 +163,7 @@ class _ToDoListState extends State<ToDoList> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: eightball,
-          title: Text(style: _newTextStyle(),'Items completed: $numCompleted'),
+          title: Text(style: _newTextStyle(), 'Items completed: $numCompleted'),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -179,7 +179,7 @@ class _ToDoListState extends State<ToDoList> {
         floatingActionButton: FloatingActionButton(
             backgroundColor: eightball,
             onPressed: () {
-              _displayTextInputDialog(context);
+              _displayTextInputDialog(context, items[0]);
             },
             child: const Icon(Icons.add)),
         //This where all of the predict things happen
@@ -208,13 +208,10 @@ class _ToDoListState extends State<ToDoList> {
 }
 
 void main() {
-  runApp( MaterialApp(
+  runApp(MaterialApp(
     title: 'To Do List',
-    theme: ThemeData(
-      textTheme: TextTheme(
-        titleMedium:_newTextStyle())
-    ),
-    home: ToDoList(),
+    theme: ThemeData(textTheme: TextTheme(titleMedium: _newTextStyle())),
+    home: const ToDoList(),
   ));
 }
 
