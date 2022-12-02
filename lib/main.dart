@@ -59,7 +59,7 @@ class _ToDoListState extends State<ToDoList> {
                 onPressed: () {
                   if (valueText != "") {
                     setState(() {
-                      _handleNewItem(valueText, item.strength);
+                      _handleNewItem(valueText, item.index, item.strength);
                       Navigator.pop(context);
                       valueText = "";
                     });
@@ -126,10 +126,15 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleNewItem(String itemText, String strength) {
+  void _handleNewItem(String itemText, String index, String strength) {
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText, index: "-1", strength: strength);
+      Random rand = Random();
+      PredictTaskWarn ptw = PredictTaskWarn();
+      Item item = Item(
+          name: itemText,
+          index: index,
+          strength: ptw.strength[rand.nextInt(4)]);
       items.insert(0, item);
       _inputController.clear();
     });
