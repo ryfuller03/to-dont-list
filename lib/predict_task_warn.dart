@@ -17,7 +17,7 @@ class PredictTaskWarn {
   ];
 
   // Prediction Strength Array
-  final strength = [
+  final strengthList = [
     "Incredibly Strong",
     "Strong",
     "Neutral",
@@ -60,17 +60,17 @@ class PredictTaskWarn {
     if (s == 0) {
       return [
         predict[rand.nextInt(predict.length)],
-        strength[rand.nextInt(strength.length)]
+        strengthList[rand.nextInt(strengthList.length)]
       ];
     } else if (s == 1) {
       return [
         task[rand.nextInt(task.length)],
-        strength[rand.nextInt(strength.length)]
+        strengthList[rand.nextInt(strengthList.length)]
       ];
     } else {
       return [
         warn[rand.nextInt(warn.length)],
-        strength[rand.nextInt(strength.length)]
+        strengthList[rand.nextInt(strengthList.length)]
       ];
     }
   }

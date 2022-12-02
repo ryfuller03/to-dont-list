@@ -7,7 +7,7 @@ import 'package:boxicons/boxicons.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 
 List<Item> items = [
-  Item(name: "add more todos", index: "-1", strength: "Strong")
+  Item(name: "add more todos", index: "-1", strength: "Incredibly Strong")
 ];
 
 TextStyle _newTextStyle() {
@@ -28,7 +28,6 @@ class _ToDoListState extends State<ToDoList> {
   final TextEditingController _inputController = TextEditingController();
   //Got rid of the initialized Button Styles to make more concise theme
   int _selectedIndex = 0;
-  PredictTaskWarn ptw = PredictTaskWarn();
   Color eightball = Color.fromARGB(255, 62, 118, 253);
 
   Future<void> _displayTextInputDialog(BuildContext context, Item item) async {
@@ -59,7 +58,7 @@ class _ToDoListState extends State<ToDoList> {
                 onPressed: () {
                   if (valueText != "") {
                     setState(() {
-                      _handleNewItem(valueText, item.strength);
+                      _handleNewItem(valueText, item.index);
                       Navigator.pop(context);
                       valueText = "";
                     });
@@ -126,10 +125,16 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  void _handleNewItem(String itemText, String strength) {
+  void _handleNewItem(String itemText, String index) {
     setState(() {
       print("Adding new item");
-      Item item = Item(name: itemText, index: "-1", strength: strength);
+      Random rand = Random();
+      PredictTaskWarn ptw = PredictTaskWarn();
+      Item item = Item(
+          name: itemText,
+          index: index,
+          strength: ptw.strengthList[rand.nextInt(4)]);
+      print(item.index);
       items.insert(0, item);
       _inputController.clear();
     });
@@ -145,6 +150,7 @@ class _ToDoListState extends State<ToDoList> {
   // instead of the one that was most recently tapped.
   void _onItemTapped(int index) {
     setState(() {
+      PredictTaskWarn ptw = PredictTaskWarn();
       Random rand = Random();
       List itemInfo = ptw.ptw(index, rand);
       String name = itemInfo[0];
@@ -160,6 +166,7 @@ class _ToDoListState extends State<ToDoList> {
 
   @override
   Widget build(BuildContext context) {
+    Random rand = Random();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: eightball,
