@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Item {
   final String name;
@@ -11,7 +12,9 @@ class Item {
   }
 
   String updateHourCounter(int amount) {
-    if (hourCounter + amount < 0) { amount = -hourCounter; }
+    if (hourCounter + amount < 0) {
+      amount = -hourCounter;
+    }
     return (hourCounter += amount).toString();
   }
 }
@@ -21,10 +24,11 @@ typedef ToDoListRemovedCallback = Function(Item item);
 typedef CounterUpdateCallback = Function(Item item, int amount);
 
 class TrailingButtonsWidget extends StatelessWidget {
-  const TrailingButtonsWidget(
-      {super.key,
-      required this.item,
-      required this.onCounterUpdate,});
+  const TrailingButtonsWidget({
+    super.key,
+    required this.item,
+    required this.onCounterUpdate,
+  });
 
   final Item item;
   final CounterUpdateCallback onCounterUpdate;
@@ -48,16 +52,18 @@ class TrailingButtonsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisSize: MainAxisSize.min, children: [
-        TextButton(
-          onPressed: onUpArrowTap,
-          onLongPress: onUpArrowLongPress,
-          child: const Icon(Icons.arrow_upward),
-        ),
-        TextButton(
-          onPressed: onDownArrowTap,
-          onLongPress: onDownArrowLongPress,
-          child: const Icon(Icons.arrow_downward),
-        ),
+      TextButton(
+        onPressed: onUpArrowTap,
+        onLongPress: onUpArrowLongPress,
+        child: const Icon(Icons.arrow_upward,
+            color: Color.fromARGB(255, 166, 30, 50)),
+      ),
+      TextButton(
+        onPressed: onDownArrowTap,
+        onLongPress: onDownArrowLongPress,
+        child: const Icon(Icons.arrow_downward,
+            color: Color.fromARGB(255, 166, 30, 50)),
+      ),
     ]);
   }
 }
@@ -82,15 +88,22 @@ class ToDoListItem extends StatelessWidget {
       leading: CircleAvatar(
         // check off button
         backgroundColor: Theme.of(context).primaryColor,
-        child: Text(item.abbrev(), style: const TextStyle(color: Colors.white)),
+        child: Text(item.abbrev(),
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: GoogleFonts.pressStart2p().fontFamily)),
       ),
-      title: Text(item.name),
+      title: Text(item.name,
+          style: TextStyle(
+              fontFamily: GoogleFonts.vt323().fontFamily, fontSize: 22)),
       trailing: TrailingButtonsWidget(
         key: key,
         item: item,
         onCounterUpdate: onCounterUpdate,
       ),
-      subtitle: Text("Hours: ${item.hourCounter}"),
+      subtitle: Text("Hours: ${item.hourCounter}",
+          style: TextStyle(
+              fontFamily: GoogleFonts.vt323().fontFamily, fontSize: 18)),
     );
   }
 }
